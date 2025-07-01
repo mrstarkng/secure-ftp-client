@@ -5,7 +5,7 @@ Vui vui thoai
 
 ## 🚀 Quy Trình Làm Việc Với Git (Git Workflow)
 
-Chúng ta sẽ sử dụng mô hình Git Flow đơn giản. **TUYỆT ĐỐI KHÔNG COMMIT TRỰC TIẾP LÊN NHÁNH `main` HOẶC `develop`**.
+ Sử dụng mô hình Git Flow đơn giản. **TUYỆT ĐỐI KHÔNG COMMIT TRỰC TIẾP LÊN NHÁNH `main` HOẶC `develop`**.
 
 ### 1. Phân Nhánh (Branching)
 
@@ -42,8 +42,8 @@ Sử dụng quy chuẩn **Conventional Commits**. Điều này giúp log của c
 
 1.  Hoàn thành công việc trên nhánh `feature/*` hoặc `fix/*`.
 2.  Push nhánh đó lên GitHub.
-3.  Trên GitHub, tạo một **Pull Request** từ nhánh của bạn vào nhánh `develop`.
-4.  Trong phần mô tả của PR, ghi rõ bạn đã làm những gì.
+3.  Trên GitHub, tạo một **Pull Request** từ nhánh của vào nhánh `develop`.
+4.  Trong phần mô tả của PR, ghi rõ đã làm những gì.
 5.  Tag (mention) ít nhất **một thành viên khác** vào để review code.
 6.  **Không tự merge PR của chính mình.** Chỉ sau khi PR được thành viên khác chấp thuận (Approve), người tạo PR mới tiến hành merge.
 
