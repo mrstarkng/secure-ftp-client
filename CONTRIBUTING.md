@@ -54,7 +54,7 @@ Sử dụng quy chuẩn **Conventional Commits**. Điều này giúp log của c
 ### Ngôn Ngữ
 
 - **Ngôn ngữ chính**: Python
-- **Phiên bản**: 3.10 (để thống nhất lại)
+- **Phiên bản**: 3.12
 
 ### Code Style
 
