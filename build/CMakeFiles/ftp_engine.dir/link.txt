@@ -1,0 +1,3 @@
+P:\msys64\ucrt64\bin\cmake.exe -E rm -f CMakeFiles\ftp_engine.dir/objects.a
+P:\msys64\ucrt64\bin\ar.exe qc CMakeFiles\ftp_engine.dir/objects.a @CMakeFiles\ftp_engine.dir\objects1.rsp
+P:\msys64\ucrt64\bin\c++.exe -shared -o ftp_engine.pyd -Wl,--major-image-version,0,--minor-image-version,0 -Wl,--whole-archive CMakeFiles\ftp_engine.dir/objects.a -Wl,--no-whole-archive @CMakeFiles\ftp_engine.dir\linkLibs.rsp
