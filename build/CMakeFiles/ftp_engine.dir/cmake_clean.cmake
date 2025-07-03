@@ -13,9 +13,9 @@ file(REMOVE_RECURSE
   "CMakeFiles/ftp_engine.dir/src/core/ftp_directory_ops.cpp.obj.d"
   "CMakeFiles/ftp_engine.dir/src/core/ftp_file_ops.cpp.obj"
   "CMakeFiles/ftp_engine.dir/src/core/ftp_file_ops.cpp.obj.d"
+  "ftp_engine.cp312-win_amd64.pyd"
+  "ftp_engine.cp312-win_amd64.pyd.manifest"
   "ftp_engine.pdb"
-  "ftp_engine.pyd"
-  "ftp_engine.pyd.manifest"
   "libftp_engine.dll.a"
 )
 

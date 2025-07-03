@@ -1,1 +1,1 @@
- D:/programdata/anaconda3/libs/python312.lib -lws2_32 D:/programdata/anaconda3/libs/python312.lib -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 
+ -lws2_32 D:/programdata/anaconda3/libs/python312.lib -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 

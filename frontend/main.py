@@ -1,5 +1,5 @@
-# file: main.py
 import sys
+import os
 import threading
 from PyQt6.QtWidgets import QApplication, QMainWindow, QTabWidget, QPushButton, QMenu, QMessageBox
 from PyQt6.QtGui import QAction
@@ -10,10 +10,7 @@ from session_manager import SessionManager
 from cli_widget import CliWidget
 from gui_widget import GuiWidget
 
-# --- Sao chép các DLLs cần thiết vào cùng thư mục với main.py ---
-# libgcc_s_seh-1.dll, libstdc++-6.dll, libwinpthread-1.dll
-# Và file ftp_engine...pyd
-
+# Rest of your code remains the same...
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()

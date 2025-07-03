@@ -56,35 +56,6 @@ CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 //Libraries linked by default with all C++ applications.
 CMAKE_CXX_STANDARD_LIBRARIES:STRING=-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
 
-//C compiler
-CMAKE_C_COMPILER:FILEPATH=P:/msys64/ucrt64/bin/cc.exe
-
-//A wrapper around 'ar' adding the appropriate '--plugin' option
-// for the GCC compiler
-CMAKE_C_COMPILER_AR:FILEPATH=P:/msys64/ucrt64/bin/gcc-ar.exe
-
-//A wrapper around 'ranlib' adding the appropriate '--plugin' option
-// for the GCC compiler
-CMAKE_C_COMPILER_RANLIB:FILEPATH=P:/msys64/ucrt64/bin/gcc-ranlib.exe
-
-//Flags used by the C compiler during all build types.
-CMAKE_C_FLAGS:STRING=
-
-//Flags used by the C compiler during DEBUG builds.
-CMAKE_C_FLAGS_DEBUG:STRING=-g
-
-//Flags used by the C compiler during MINSIZEREL builds.
-CMAKE_C_FLAGS_MINSIZEREL:STRING=-Os -DNDEBUG
-
-//Flags used by the C compiler during RELEASE builds.
-CMAKE_C_FLAGS_RELEASE:STRING=-O3 -DNDEBUG
-
-//Flags used by the C compiler during RELWITHDEBINFO builds.
-CMAKE_C_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
-
-//Libraries linked by default with all C applications.
-CMAKE_C_STANDARD_LIBRARIES:STRING=-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-
 //Path to a program.
 CMAKE_DLLTOOL:FILEPATH=P:/msys64/ucrt64/bin/dlltool.exe
 
@@ -110,7 +81,7 @@ CMAKE_FIND_PACKAGE_REDIRECTS_DIR:STATIC=P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClie
 CMAKE_GNUtoMS:BOOL=OFF
 
 //Install path prefix, prepended onto install directories.
-CMAKE_INSTALL_PREFIX:PATH=D:/Program Files (x86)/ftp_engine
+CMAKE_INSTALL_PREFIX:PATH=D:/Program Files (x86)/SecureFtpClient
 
 //Path to a program.
 CMAKE_LINKER:FILEPATH=P:/msys64/ucrt64/bin/ld.exe
@@ -154,7 +125,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=ftp_engine
+CMAKE_PROJECT_NAME:STATIC=SecureFtpClient
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=P:/msys64/ucrt64/bin/ranlib.exe
@@ -243,13 +214,13 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 Python_EXECUTABLE:UNINITIALIZED=D:/programdata/anaconda3/python.exe
 
 //Value Computed by CMake
-ftp_engine_BINARY_DIR:STATIC=P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build
+SecureFtpClient_BINARY_DIR:STATIC=P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build
 
 //Value Computed by CMake
-ftp_engine_IS_TOP_LEVEL:STATIC=ON
+SecureFtpClient_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
-ftp_engine_SOURCE_DIR:STATIC=P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient
+SecureFtpClient_SOURCE_DIR:STATIC=P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient
 
 //The directory containing a CMake configuration file for pybind11.
 pybind11_DIR:PATH=P:/msys64/ucrt64/lib/cmake/pybind11
@@ -297,24 +268,6 @@ CMAKE_CXX_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 CMAKE_CXX_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_CXX_STANDARD_LIBRARIES
 CMAKE_CXX_STANDARD_LIBRARIES-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_C_COMPILER
-CMAKE_C_COMPILER-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_C_COMPILER_AR
-CMAKE_C_COMPILER_AR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_C_COMPILER_RANLIB
-CMAKE_C_COMPILER_RANLIB-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_C_FLAGS
-CMAKE_C_FLAGS-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_C_FLAGS_DEBUG
-CMAKE_C_FLAGS_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_C_FLAGS_MINSIZEREL
-CMAKE_C_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_C_FLAGS_RELEASE
-CMAKE_C_FLAGS_RELEASE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_C_FLAGS_RELWITHDEBINFO
-CMAKE_C_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_C_STANDARD_LIBRARIES
-CMAKE_C_STANDARD_LIBRARIES-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_DLLTOOL
 CMAKE_DLLTOOL-ADVANCED:INTERNAL=1
 //Executable file format
@@ -339,8 +292,6 @@ CMAKE_GENERATOR_INSTANCE:INTERNAL=
 CMAKE_GENERATOR_PLATFORM:INTERNAL=
 //Name of generator toolset.
 CMAKE_GENERATOR_TOOLSET:INTERNAL=
-//Test CMAKE_HAVE_LIBC_PTHREAD
-CMAKE_HAVE_LIBC_PTHREAD:INTERNAL=1
 //Source directory with the top level CMakeLists.txt file for this
 // project
 CMAKE_HOME_DIRECTORY:INTERNAL=P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient
@@ -421,8 +372,6 @@ CMAKE_TAPI-ADVANCED:INTERNAL=1
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding Python
 FIND_PACKAGE_MESSAGE_DETAILS_Python:INTERNAL=[D:/programdata/anaconda3/python.exe][D:/programdata/anaconda3/libs/python312.lib][D:/programdata/anaconda3/Include][found components: Interpreter Development Development.Module Development.Embed ][v3.12.7()]
-//Details about finding Threads
-FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //Python executable during the last CMake run
 PYBIND11_PYTHON_EXECUTABLE_LAST:INTERNAL=D:/programdata/anaconda3/python.exe
 //Python debug status
