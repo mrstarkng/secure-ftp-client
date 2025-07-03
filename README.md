@@ -1,5 +1,4 @@
-```markdown
-# Secure FTP Client – Developer’s Guide
+# Secure FTP Client – Developer's Guide
 
 Welcome to the team! This document provides all the necessary steps to set up your development environment, build the C++ backend, and run the application.
 
@@ -35,22 +34,20 @@ This project is a multi-session, secure FTP client featuring a Python/PyQt6 grap
 ## Project Structure
 
 ```
-
 .
 ├── build/                # CMake build directory
 ├── common/               # Shared C++ code (constants, exceptions)
 ├── connectors/           # C++ connectors (ClamAV)
 ├── core/                 # Core C++ FTP logic
-├── python\_ui/            # Python source files
+├── python_ui/            # Python source files
 │   ├── main.py           # Application entry point
-│   ├── cli\_widget.py
-│   ├── gui\_widget.py
-│   └── session\_manager.py
+│   ├── cli_widget.py
+│   ├── gui_widget.py
+│   └── session_manager.py
 ├── binder.cpp            # Pybind11 bindings
 ├── CMakeLists.txt        # CMake build script
 └── requirements.txt      # Python dependencies
-
-````
+```
 
 > 💡 **Note:** All Python files are expected to be located in the `python_ui/` directory. If not already moved, please do so before continuing.
 
@@ -95,7 +92,7 @@ Install the following tools:
 ```bash
 git clone <your-repository-url>
 cd <repository-folder>
-````
+```
 
 ---
 
@@ -184,18 +181,18 @@ You should get a file like `ftp_engine.cp312-win_amd64.pyd` in the `build/` fold
 
 Copy the following DLLs from `C:\msys64\ucrt64\bin` to your **project root directory** (next to `main.py`):
 
-* `libgcc_s_seh-1.dll`
-* `libstdc++-6.dll`
-* `libwinpthread-1.dll`
+- `libgcc_s_seh-1.dll`
+- `libstdc++-6.dll`
+- `libwinpthread-1.dll`
 
 Also copy the generated `.pyd` file from the `build/` folder to the root.
 
 **Final root directory should contain:**
 
-* `main.py`
-* `ftp_engine.cp312-win_amd64.pyd`
-* Required DLLs
-* Other Python and project files
+- `main.py`
+- `ftp_engine.cp312-win_amd64.pyd`
+- Required DLLs
+- Other Python and project files
 
 ---
 
@@ -212,8 +209,3 @@ python main.py
 ## Contribution Guidelines
 
 Please refer to **[CONTRIBUTING.md](CONTRIBUTING.md)** for our Git workflow, branch naming conventions, commit format, and pull request guidelines.
-
-```
-
-Let me know if you'd like this exported to a `.md` file or with GitHub formatting preview!
-```
