@@ -102,9 +102,10 @@ FTPClient/
 
 Install the following tools:
 
-1. **Git** – Version control  
-2. **Anaconda / Miniconda** – Python environment manager  
-3. **MSYS2** – For MinGW-w64 C++ compilation  
+1. **Git** – Version control
+2. **CMake** for Windows (Optional, can use to build fast in Visual Studio Code)
+3. **Anaconda / Miniconda** – Python environment manager  
+4. **MSYS2** – For MinGW-w64 C++ compilation  
    - Download from [https://www.msys2.org](https://www.msys2.org)
    - Launch the **MSYS2 UCRT64** terminal and run:
 
