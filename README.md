@@ -56,7 +56,7 @@ FTPClient/
 │   │   libgcc_s_seh-1.dll        # Required DLL dependencies
 │   │   libstdc++-6.dll
 │   │   libwinpthread-1.dll
-│   │   ftp_engine.pyd            # COPY THE .pyd FILE FROM BUILD DIRECTORY HERE <-----
+│   │   ftp_engine.pyd # <------ COPY THE .pyd FILE FROM BUILD DIRECTORY HERE <-----
 │   │   
 │   └───__pycache__/              # Python bytecode cache
 │       └───...                   # (compiled Python files)
@@ -224,12 +224,15 @@ The required DLL files are already located in the `frontend/` directory:
 - `libstdc++-6.dll`
 - `libwinpthread-1.dll`
 
+You will also need to copy the .pyd file from the build directory to the folder that contains the .py files.
+
 These DLLs are copied from `C:\msys64\ucrt64\bin` and are necessary for the C++ backend to work properly.
 
 **Current directory structure:**
 - `frontend/main.py` - Application entry point
 - `frontend/*.dll` - Required DLL dependencies
 - `build/ftp_engine.pyd` - Generated Python module
+-> `frontend/ftp_engine*.pyd`
 
 ---
 
