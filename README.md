@@ -260,7 +260,7 @@ These DLLs are copied from `C:\msys64\ucrt64\bin` and are necessary for the C++ 
 ### Common Issues:
 
 1. **ImportError: No module named 'ftp_engine'**
-   - Ensure the `ftp_engine.pyd` file is in the `build/` directory
+   - Ensure the `ftp_engine.pyd` file is in the `frontend/` directory
    - Verify the Python path is correctly set in `main.py`
 
 2. **DLL Load Failed**
@@ -269,7 +269,7 @@ These DLLs are copied from `C:\msys64\ucrt64\bin` and are necessary for the C++ 
 
 3. **PyQt6 Import Error**
    - Ensure you've installed the requirements: `pip install -r requirements.txt`
-   - Verify you're using the correct Conda environment
+   - Verify you're using the correct Conda environment (Python 3.12)
 
 ---
 
@@ -285,4 +285,3 @@ Please refer to **[CONTRIBUTING.md](CONTRIBUTING.md)** for our Git workflow, bra
 - **C++ Standard**: C++20
 - **Build System**: CMake with MinGW-w64 UCRT
 - **GUI Framework**: PyQt6
-- **Last Updated**: 2025-07-03 01:43:29 UTC by Kostovite
