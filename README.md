@@ -248,18 +248,7 @@ These DLLs are copied from `C:\msys64\ucrt64\bin` and are necessary for the C++ 
    cd frontend
    ```
 
-3. Update the Python path to include the build directory. Add this to the beginning of `main.py`:
-   ```python
-   import sys
-   import os
-   
-   # Add the build directory to Python path
-   build_dir = os.path.join(os.path.dirname(__file__), '..', 'build')
-   if os.path.exists(build_dir):
-       sys.path.insert(0, build_dir)
-   ```
-
-4. Run the application:
+3. Run the application:
    ```bash
    python main.py
    ```
