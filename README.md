@@ -56,6 +56,7 @@ FTPClient/
 │   │   libgcc_s_seh-1.dll        # Required DLL dependencies
 │   │   libstdc++-6.dll
 │   │   libwinpthread-1.dll
+│   │   ftp_engine.pyd            # COPY THE .pyd FILE FROM BUILD DIRECTORY HERE <-----
 │   │   
 │   └───__pycache__/              # Python bytecode cache
 │       └───...                   # (compiled Python files)
