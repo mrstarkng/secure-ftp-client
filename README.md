@@ -56,6 +56,7 @@ FTPClient/
 │   │   libgcc_s_seh-1.dll        # Required DLL dependencies
 │   │   libstdc++-6.dll
 │   │   libwinpthread-1.dll
+│   │   ftp_engine.pyd # <------ COPY THE .pyd FILE FROM BUILD DIRECTORY HERE <-----
 │   │   
 │   └───__pycache__/              # Python bytecode cache
 │       └───...                   # (compiled Python files)
@@ -102,9 +103,10 @@ FTPClient/
 
 Install the following tools:
 
-1. **Git** – Version control  
-2. **Anaconda / Miniconda** – Python environment manager  
-3. **MSYS2** – For MinGW-w64 C++ compilation  
+1. **Git** – Version control
+2. **CMake** for Windows (Optional, can use to build fast in Visual Studio Code)
+3. **Anaconda / Miniconda** – Python environment manager  
+4. **MSYS2** – For MinGW-w64 C++ compilation  
    - Download from [https://www.msys2.org](https://www.msys2.org)
    - Launch the **MSYS2 UCRT64** terminal and run:
 
@@ -222,12 +224,15 @@ The required DLL files are already located in the `frontend/` directory:
 - `libstdc++-6.dll`
 - `libwinpthread-1.dll`
 
+You will also need to copy the .pyd file from the build directory to the folder that contains the .py files.
+
 These DLLs are copied from `C:\msys64\ucrt64\bin` and are necessary for the C++ backend to work properly.
 
 **Current directory structure:**
 - `frontend/main.py` - Application entry point
 - `frontend/*.dll` - Required DLL dependencies
 - `build/ftp_engine.pyd` - Generated Python module
+-> `frontend/ftp_engine*.pyd`
 
 ---
 
@@ -243,18 +248,7 @@ These DLLs are copied from `C:\msys64\ucrt64\bin` and are necessary for the C++ 
    cd frontend
    ```
 
-3. Update the Python path to include the build directory. Add this to the beginning of `main.py`:
-   ```python
-   import sys
-   import os
-   
-   # Add the build directory to Python path
-   build_dir = os.path.join(os.path.dirname(__file__), '..', 'build')
-   if os.path.exists(build_dir):
-       sys.path.insert(0, build_dir)
-   ```
-
-4. Run the application:
+3. Run the application:
    ```bash
    python main.py
    ```
@@ -266,7 +260,7 @@ These DLLs are copied from `C:\msys64\ucrt64\bin` and are necessary for the C++ 
 ### Common Issues:
 
 1. **ImportError: No module named 'ftp_engine'**
-   - Ensure the `ftp_engine.pyd` file is in the `build/` directory
+   - Ensure the `ftp_engine.pyd` file is in the `frontend/` directory
    - Verify the Python path is correctly set in `main.py`
 
 2. **DLL Load Failed**
@@ -275,7 +269,7 @@ These DLLs are copied from `C:\msys64\ucrt64\bin` and are necessary for the C++ 
 
 3. **PyQt6 Import Error**
    - Ensure you've installed the requirements: `pip install -r requirements.txt`
-   - Verify you're using the correct Conda environment
+   - Verify you're using the correct Conda environment (Python 3.12)
 
 ---
 
@@ -291,4 +285,3 @@ Please refer to **[CONTRIBUTING.md](CONTRIBUTING.md)** for our Git workflow, bra
 - **C++ Standard**: C++20
 - **Build System**: CMake with MinGW-w64 UCRT
 - **GUI Framework**: PyQt6
-- **Last Updated**: 2025-07-03 01:43:29 UTC by Kostovite
