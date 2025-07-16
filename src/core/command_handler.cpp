@@ -258,3 +258,71 @@ status        Show current status
 ?             Same as help
 )";
 }
+
+// Direct file operations for Python bindings
+bool CommandHandler::uploadFile(const std::string& local, const std::string& remote) {
+    try {
+        return ftp.uploadFile(local, remote);
+    } catch (const FtpException& e) {
+        std::cerr << "Upload error: " << e.what() << std::endl;
+        return false;
+    }
+}
+
+bool CommandHandler::downloadFile(const std::string& remote, const std::string& local) {
+    try {
+        return ftp.downloadFile(remote, local);
+    } catch (const FtpException& e) {
+        std::cerr << "Download error: " << e.what() << std::endl;
+        return false;
+    }
+}
+
+bool CommandHandler::uploadFileWithProgress(const std::string& local, const std::string& remote, ProgressCallback callback) {
+    try {
+        return ftp.uploadFileWithProgress(local, remote, callback);
+    } catch (const FtpException& e) {
+        std::cerr << "Upload with progress error: " << e.what() << std::endl;
+        return false;
+    }
+}
+
+bool CommandHandler::downloadFileWithProgress(const std::string& remote, const std::string& local, ProgressCallback callback) {
+    try {
+        return ftp.downloadFileWithProgress(remote, local, callback);
+    } catch (const FtpException& e) {
+        std::cerr << "Download with progress error: " << e.what() << std::endl;
+        return false;
+    }
+}
+
+// Connection management methods for Python
+bool CommandHandler::connect(const std::string& host, int port) {
+    try {
+        return ftp.connect(host, port);
+    } catch (const FtpException& e) {
+        std::cerr << "Connection error: " << e.what() << std::endl;
+        return false;
+    }
+}
+
+bool CommandHandler::login(const std::string& username, const std::string& password) {
+    try {
+        return ftp.login(username, password);
+    } catch (const FtpException& e) {
+        std::cerr << "Login error: " << e.what() << std::endl;
+        return false;
+    }
+}
+
+void CommandHandler::setPassive(bool passive) {
+    ftp.setPassive(passive);
+}
+
+void CommandHandler::disconnect() {
+    ftp.disconnect();
+}
+
+bool CommandHandler::isConnected() const {
+    return ftp.isConnected();
+}

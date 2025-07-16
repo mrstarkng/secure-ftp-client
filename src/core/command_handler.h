@@ -35,6 +35,19 @@ public:
     std::string handle_put(const std::vector<std::string>& args);
     std::string handle_mget(const std::vector<std::string>& args);
     std::string handle_mput(const std::vector<std::string>& args);
+    
+    // --- Direct File Operations for Python ---
+    bool uploadFile(const std::string& local, const std::string& remote);
+    bool downloadFile(const std::string& remote, const std::string& local);
+    bool uploadFileWithProgress(const std::string& local, const std::string& remote, ProgressCallback callback);
+    bool downloadFileWithProgress(const std::string& remote, const std::string& local, ProgressCallback callback);
+    
+    // --- Connection Management for Python ---
+    bool connect(const std::string& host, int port);
+    bool login(const std::string& username, const std::string& password);
+    void setPassive(bool passive);
+    void disconnect();
+    bool isConnected() const;
 
 private:
     // Add private helpers for recursion

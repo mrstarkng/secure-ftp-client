@@ -5,18 +5,23 @@ import re
 import urllib.parse
 import datetime
 import shutil
+import uuid
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QTreeView, QSplitter,
     QVBoxLayout, QHBoxLayout, QWidget, QLineEdit, QStatusBar,
     QDockWidget, QTextEdit, QLabel, QPushButton, QFormLayout, QFrame,
     QGroupBox, QMessageBox, QCheckBox, QSpinBox, QMenu, QHeaderView,
-    QAbstractItemView, QInputDialog, QFileDialog
+    QAbstractItemView, QInputDialog, QFileDialog, QTabWidget
 )
 from PyQt6.QtGui import QIcon, QAction, QFileSystemModel, QFont, QStandardItemModel, QStandardItem, QDrag
 from PyQt6.QtCore import QDir, Qt, QModelIndex, QTimer, QMimeData
 
 # Import the actual session manager from your project
 from session_manager import SessionManager
+
+# Import parallel transfer components
+from connection_pool import ConnectionPool, TransferJob, TransferType
+from transfer_queue_widget import TransferQueueWidget
 
 # --- Custom Widgets ---
 class DragDropTreeView(QTreeView):
@@ -88,6 +93,16 @@ class DragDropTreeView(QTreeView):
             for url in urls:
                 if url.isLocalFile():
                     source_path = url.toLocalFile()
+                    
+                    # Strip quotes from the path
+                    source_path = source_path.strip('\'"')
+                    
+                    # Debug: Print the path being processed
+                    print(f"DEBUG: Drag & Drop - Processing path: {repr(source_path)}")
+                    
+                    # Normalize the path to handle Unicode characters properly
+                    source_path = os.path.normpath(source_path)
+                    
                     if target_index.isValid():
                         target_path = self.model().filePath(target_index)
                         if self.model().isDir(target_index):
@@ -405,6 +420,8 @@ class RemoteTreeView(QTreeView):
                     for url in urls:
                         if url.isLocalFile():
                             source_path = url.toLocalFile()
+                            # Strip quotes from the path
+                            source_path = source_path.strip('\'"')
                             if self.parent_widget:
                                 self.parent_widget.upload_file(source_path, preserve_structure=True)
                     
@@ -415,6 +432,8 @@ class RemoteTreeView(QTreeView):
                     for url in urls:
                         if url.isLocalFile():
                             source_path = url.toLocalFile()
+                            # Strip quotes from the path
+                            source_path = source_path.strip('\'"')
                             if self.parent_widget:
                                 self.parent_widget.upload_file(source_path, preserve_structure=True)
             else:
@@ -422,6 +441,8 @@ class RemoteTreeView(QTreeView):
                 for url in urls:
                     if url.isLocalFile():
                         source_path = url.toLocalFile()
+                        # Strip quotes from the path
+                        source_path = source_path.strip('\'"')
                         if self.parent_widget:
                             self.parent_widget.upload_file(source_path, preserve_structure=True)
                     
@@ -627,7 +648,7 @@ class GuiWidget(QMainWindow):
         super().__init__()
         self.session = session_manager
         self.setWindowTitle("Secure FTP Client")
-        self.setGeometry(100, 100, 1300, 800)
+        self.setGeometry(100, 100, 1400, 900)
         self.setWindowIcon(QIcon.fromTheme("network-server"))
         
         # Track current remote directory
@@ -644,10 +665,14 @@ class GuiWidget(QMainWindow):
         self.local_model = QFileSystemModel()
         self.local_model.setRootPath(QDir.currentPath())
         self.remote_model = RemoteFileModel(self)
-
+        
+        # --- Connection Pool for Parallel Transfers ---
+        self.connection_pool = ConnectionPool(max_connections=5)
+        
         # --- UI Components ---
         self.setup_central_widget()
         self.create_connection_panel()
+        self.create_transfer_panel()
 
         self.status_bar = QStatusBar()
         self.setStatusBar(self.status_bar)
@@ -656,6 +681,9 @@ class GuiWidget(QMainWindow):
         # --- Signal/Slot Connections ---
         self.setup_connections()
         
+        # Connect transfer queue to connection pool AFTER both are created
+        self.transfer_queue_widget.set_connection_pool(self.connection_pool)
+        
         # Timer for updating the timestamp
         self.timestamp_timer = QTimer(self)
         self.timestamp_timer.timeout.connect(self.update_timestamp)
@@ -663,6 +691,23 @@ class GuiWidget(QMainWindow):
         self.update_timestamp()  # Initial update
 
     def setup_central_widget(self):
+        # Create main tab widget
+        self.main_tabs = QTabWidget()
+        
+        # File manager tab
+        file_manager_tab = QWidget()
+        self.setup_file_manager_tab(file_manager_tab)
+        self.main_tabs.addTab(file_manager_tab, "File Manager")
+        
+        # Transfer queue tab
+        self.transfer_queue_widget = TransferQueueWidget()
+        # Note: Connection pool will be set after both widgets are created
+        self.main_tabs.addTab(self.transfer_queue_widget, "Transfer Queue")
+        
+        self.setCentralWidget(self.main_tabs)
+        
+    def setup_file_manager_tab(self, parent_widget):
+        """Setup the file manager tab with local and remote panels"""
         # Left panel for local files
         local_panel = QWidget()
         local_layout = QVBoxLayout(local_panel)
@@ -755,10 +800,9 @@ class GuiWidget(QMainWindow):
         splitter.addWidget(local_panel)
         splitter.addWidget(remote_panel)
         splitter.setSizes([600, 700])
-        main_widget = QWidget()
-        layout = QVBoxLayout(main_widget)
+        
+        layout = QVBoxLayout(parent_widget)
         layout.addWidget(splitter)
-        self.setCentralWidget(main_widget)
 
     def create_connection_panel(self):
         dock_widget = QDockWidget("Connection & Server Info", self)
@@ -800,10 +844,11 @@ class GuiWidget(QMainWindow):
         status_header_layout.addWidget(self.connection_status)
         
         # Add a close connection button directly in the status header
-        self.close_connection_button = QPushButton("Close")
-        self.close_connection_button.setToolTip("Close the current connection")
+        self.close_connection_button = QPushButton("✕")
+        self.close_connection_button.setToolTip("Close connection and reset UI")
         self.close_connection_button.setEnabled(False)
-        self.close_connection_button.clicked.connect(self.on_disconnect_clicked)
+        self.close_connection_button.setMaximumWidth(30)
+        self.close_connection_button.clicked.connect(self.on_close_connection_clicked)
         status_header_layout.addWidget(self.close_connection_button)
         
         status_layout.addLayout(status_header_layout)
@@ -811,8 +856,13 @@ class GuiWidget(QMainWindow):
         # Original button row
         button_layout = QHBoxLayout()
         self.disconnect_button = QPushButton("Disconnect")
+        self.disconnect_button.setToolTip("Disconnect from server gracefully")
         self.disconnect_button.setEnabled(False)
+        self.disconnect_button.clicked.connect(self.on_disconnect_clicked)
+        
         self.status_button = QPushButton("Status")
+        self.status_button.setToolTip("Get server status information")
+        
         button_layout.addWidget(self.disconnect_button)
         button_layout.addWidget(self.status_button)
         status_layout.addLayout(button_layout)
@@ -842,7 +892,7 @@ class GuiWidget(QMainWindow):
 
         # Add current timestamp and user info at the bottom
         self.timestamp_layout = QHBoxLayout()
-        self.timestamp_label = QLabel("Last Update: 2025-07-16 14:43:21 UTC | User: Kostovite")
+        self.timestamp_label = QLabel("HCMUS-FIT Secure FTP Client")
         self.timestamp_label.setStyleSheet("color: gray; font-size: 10px;")
         self.timestamp_layout.addWidget(self.timestamp_label)
         main_layout.addLayout(self.timestamp_layout)
@@ -850,9 +900,56 @@ class GuiWidget(QMainWindow):
         dock_widget.setWidget(container_widget)
         self.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, dock_widget)
 
+    def create_transfer_panel(self):
+        """Create transfer queue control panel"""
+        transfer_dock = QDockWidget("Transfer Controls", self)
+        transfer_dock.setAllowedAreas(Qt.DockWidgetArea.BottomDockWidgetArea)
+        transfer_dock.setMinimumHeight(120)
+        
+        transfer_widget = QWidget()
+        transfer_layout = QVBoxLayout(transfer_widget)
+        
+        # Parallel transfer settings
+        settings_group = QGroupBox("Parallel Transfer Settings")
+        settings_layout = QFormLayout(settings_group)
+        
+        self.max_connections_spinbox = QSpinBox()
+        self.max_connections_spinbox.setRange(1, 10)
+        self.max_connections_spinbox.setValue(5)
+        self.max_connections_spinbox.valueChanged.connect(self.update_connection_pool_size)
+        settings_layout.addRow("Max Connections:", self.max_connections_spinbox)
+        
+        # Enable/disable parallel transfers
+        self.parallel_enabled_checkbox = QCheckBox("Enable Parallel Transfers")
+        self.parallel_enabled_checkbox.setChecked(True)
+        self.parallel_enabled_checkbox.toggled.connect(self.toggle_parallel_transfers)
+        settings_layout.addRow("", self.parallel_enabled_checkbox)
+        
+        transfer_layout.addWidget(settings_group)
+        
+        # Transfer actions
+        actions_group = QGroupBox("Quick Actions")
+        actions_layout = QHBoxLayout(actions_group)
+        
+        self.batch_upload_btn = QPushButton("Batch Upload Files")
+        self.batch_upload_btn.clicked.connect(self.batch_upload_files)
+        self.batch_upload_btn.setEnabled(False)
+        actions_layout.addWidget(self.batch_upload_btn)
+        
+        self.batch_download_btn = QPushButton("Batch Download Files")
+        self.batch_download_btn.clicked.connect(self.batch_download_files)
+        self.batch_download_btn.setEnabled(False)
+        actions_layout.addWidget(self.batch_download_btn)
+        
+        actions_layout.addStretch()
+        transfer_layout.addWidget(actions_group)
+        
+        transfer_dock.setWidget(transfer_widget)
+        self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, transfer_dock)
+
     def update_timestamp(self):
         """Update the timestamp in the status panel"""
-        current_time = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+        current_time = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
         self.timestamp_label.setText(f"Last Update: {current_time} UTC | User: Kostovite")
 
     def go_up_local_directory(self):
@@ -876,7 +973,6 @@ class GuiWidget(QMainWindow):
         self.local_address_bar.returnPressed.connect(self.on_local_address_entered)
         self.remote_address_bar.returnPressed.connect(self.on_remote_address_entered)
         self.connect_button.clicked.connect(self.on_connect_clicked)
-        self.disconnect_button.clicked.connect(self.on_disconnect_clicked)
         self.status_button.clicked.connect(self.on_status_clicked)
         self.session.output_received.connect(self.handle_server_output)
         self.session.task_finished.connect(self.on_task_finished)
@@ -885,15 +981,52 @@ class GuiWidget(QMainWindow):
 
     def execute_command(self, command: str):
         """Puts a command on the session manager's queue. This is thread-safe."""
-        self.status_bar.showMessage(f"Queueing: {command.split()[0]}...")
+        
+        # Use shlex to correctly parse commands with quoted arguments
+        try:
+            command_parts = shlex.split(command)
+        except ValueError:
+            # Handle potential unclosed quotes
+            command_parts = command.split()
+
+        if not command_parts:
+            return
+
+        self.status_bar.showMessage(f"Queueing: {command_parts[0]}...")
+        
         display_command = command
-        if command.startswith("open") and len(command.split()) >= 4:
-            parts = command.split()
-            display_command = f"open {parts[1]} {parts[2]} ****"
+        if command_parts[0] == "open" and len(command_parts) >= 4:
+            display_command = f"open {command_parts[1]} {command_parts[2]} ****"
         
         # Store the command type for later reference
-        command_parts = command.split()
-        self.last_command = command_parts[0] if command_parts else command
+        self.last_command = command_parts[0]
+        
+        # Check if this is a put command and parallel transfers are enabled
+        if (self.last_command == "put" and 
+            self.parallel_enabled_checkbox.isChecked() and 
+            self.connection_pool and 
+            len(command_parts) >= 2):
+            
+            local_path = command_parts[1]
+            remote_path = command_parts[2] if len(command_parts) > 2 else None
+            
+            # Route through parallel transfer system
+            self.upload_file_via_parallel_system(local_path, remote_path)
+            return
+        
+        # Check if this is a get command and parallel transfers are enabled
+        if (self.last_command == "get" and 
+            self.parallel_enabled_checkbox.isChecked() and 
+            self.connection_pool and 
+            len(command_parts) >= 2):
+            
+            remote_path = command_parts[1]
+            # For 'get', the local path is optional. If not provided, download to current local dir.
+            local_path = command_parts[2] if len(command_parts) > 2 else self.local_address_bar.text()
+            
+            # Route through parallel transfer system
+            self.download_file_via_parallel_system(remote_path, local_path)
+            return
         
         # Store the target directory if it's a CD command
         if self.last_command == "cd" and len(command_parts) > 1:
@@ -909,6 +1042,86 @@ class GuiWidget(QMainWindow):
         self.server_log.append(f">>> {display_command}")
         self.session.process_command_line(command)
 
+    def upload_file_via_parallel_system(self, local_path: str, remote_path: str):
+        """Upload a single file using the parallel transfer system"""
+        # Ensure the path is properly encoded and normalized
+        try:
+            # Strip quotes from the path first
+            local_path = local_path.strip('\'"')
+            
+            # Normalize the path to handle Unicode characters properly
+            local_path = os.path.normpath(local_path)
+            
+            # Debug: Print the actual path being processed
+            print(f"DEBUG: Processing upload for path: {repr(local_path)}")
+            self.server_log.append(f"DEBUG: Processing upload for path: {repr(local_path)}")
+            
+            # Check if file exists with proper encoding
+            if not os.path.exists(local_path):
+                error_msg = f"ERROR: Local file not found: {repr(local_path)}"
+                print(error_msg)
+                self.server_log.append(error_msg)
+                self.status_bar.showMessage("Upload failed: File not found", 3000)
+                return
+            
+            # Get file size safely
+            try:
+                file_size = os.path.getsize(local_path)
+            except Exception as e:
+                error_msg = f"ERROR: Cannot get file size for {repr(local_path)}: {e}"
+                print(error_msg)
+                self.server_log.append(error_msg)
+                self.status_bar.showMessage("Upload failed: Cannot access file", 3000)
+                return
+                
+            # Create a transfer job
+            job = TransferJob(
+                job_id=str(uuid.uuid4()),
+                transfer_type=TransferType.UPLOAD,
+                local_path=local_path,
+                remote_path=remote_path,
+                size=file_size
+            )
+            
+            # Add job to transfer queue
+            self.transfer_queue_widget.add_transfer_job(job)
+            
+            # Switch to transfer queue tab to show progress
+            self.main_tabs.setCurrentIndex(1)
+            
+            # Update status
+            filename = os.path.basename(local_path)
+            self.status_bar.showMessage(f"Uploading {filename} via parallel system...", 3000)
+            self.server_log.append(f"INFO: Uploading {filename} using parallel transfer system")
+            
+        except Exception as e:
+            error_msg = f"ERROR: Exception in upload_file_via_parallel_system: {e}"
+            print(error_msg)
+            self.server_log.append(error_msg)
+            self.status_bar.showMessage("Upload failed: Unexpected error", 3000)
+
+    def download_file_via_parallel_system(self, remote_path: str, local_path: str):
+        """Download a single file using the parallel transfer system"""
+        # Create a transfer job
+        job = TransferJob(
+            job_id=str(uuid.uuid4()),
+            transfer_type=TransferType.DOWNLOAD,
+            local_path=local_path,
+            remote_path=remote_path,
+            size=0  # Size will be determined during transfer
+        )
+        
+        # Add job to transfer queue
+        self.transfer_queue_widget.add_transfer_job(job)
+        
+        # Switch to transfer queue tab to show progress
+        self.main_tabs.setCurrentIndex(1)
+        
+        # Update status
+        filename = os.path.basename(remote_path)
+        self.status_bar.showMessage(f"Downloading {filename} via parallel system...", 3000)
+        self.server_log.append(f"INFO: Downloading {filename} using parallel transfer system")
+
     def refresh_remote_directory(self):
         """Refreshes the current remote directory listing"""
         if self.connection_status.text().startswith("Connected"):
@@ -919,25 +1132,65 @@ class GuiWidget(QMainWindow):
         host = self.host_input.text().strip()
         user = self.user_input.text().strip()
         password = self.pass_input.text()
+        port = self.port_input.value()
+        
         if not host or not user:
             QMessageBox.warning(self, "Connection Error", "Host and Username are required.")
             return
+            
         self.connect_button.setEnabled(False)
         self.disconnect_button.setEnabled(False)
         self.close_connection_button.setEnabled(False)
+        
         # Reset current directory on new connection
         self.current_remote_dir = "/"
         self.just_connected = True  # Set flag to indicate we just connected
+        
+        # Initialize connection pool for parallel transfers
+        self.connection_pool.initialize_pool(
+            host=host,
+            port=port,
+            username=user,
+            password=password,
+            passive_mode=self.passive_mode.isChecked()
+        )
+        
+        # Enable batch transfer buttons if parallel transfers are enabled
+        if self.parallel_enabled_checkbox.isChecked():
+            self.batch_upload_btn.setEnabled(True)
+            self.batch_download_btn.setEnabled(True)
+        
         self.execute_command(f"open {host} {user} {password}")
 
     def on_disconnect_clicked(self):
-        self.execute_command("close")
+        """Gracefully disconnect from the server"""
+        self.execute_command("quit")
+        self.status_bar.showMessage("Disconnecting gracefully...", 3000)
+        self.server_log.append(">>> Sending graceful disconnect (QUIT)")
+        
         # Reset UI elements
         self.up_dir_button.setEnabled(False)
         self.refresh_button.setEnabled(False)
         self.remote_address_bar.setText("")
         self.disconnect_button.setEnabled(False)
         self.close_connection_button.setEnabled(False)
+
+    def on_close_connection_clicked(self):
+        """Forcefully close the connection and reset the UI"""
+        self.execute_command("close")
+        self.status_bar.showMessage("Connection closed forcefully.", 3000)
+        self.server_log.append(">>> Forcing connection close")
+        
+        # Reset UI elements
+        self.up_dir_button.setEnabled(False)
+        self.refresh_button.setEnabled(False)
+        self.remote_address_bar.setText("")
+        self.disconnect_button.setEnabled(False)
+        self.close_connection_button.setEnabled(False)
+        
+        # Clear remote file list
+        self.remote_model.clear()
+        self.current_remote_dir = "/"
 
     def on_status_clicked(self):
         self.execute_command("status")
@@ -965,7 +1218,7 @@ class GuiWidget(QMainWindow):
             # After connection, we want to get current directory and then list files
             self.execute_command("pwd")
             
-        elif "Connection closed" in text or "Goodbye" in text:
+        elif "Connection closed" in text or "Goodbye" in text or "221 " in text:
             self.connection_status.setText("Not connected")
             self.connection_status.setStyleSheet("color: red; font-weight: bold;")
             self.remote_model.clear()
@@ -1053,6 +1306,12 @@ class GuiWidget(QMainWindow):
                 self.status_bar.showMessage("Download completed successfully!", 3000)
                 # Refresh local directory to show the downloaded file
                 self.refresh_local_directory()
+                
+            elif command_name == "quit":
+                self.status_bar.showMessage("Disconnected gracefully.", 3000)
+                
+            elif command_name == "close":
+                self.status_bar.showMessage("Connection closed.", 3000)
         else:
             if command_name == "get":
                 self.status_bar.showMessage("Download failed. Check the log for details.", 5000)
@@ -1116,7 +1375,28 @@ class GuiWidget(QMainWindow):
         # Extract the filename/dirname from the path, discarding absolute path
         basename = os.path.basename(local_path)
         
-        # If we want to preserve the folder structure (when dropping directly)
+        # If parallel transfers are enabled, use the parallel system
+        if self.parallel_enabled_checkbox.isChecked() and self.connection_pool:
+            target_remote_path = remote_path if remote_path else basename
+            if is_directory:
+                # For directories, we need to handle them differently
+                # Create the directory first, then upload contents
+                self.execute_command(f"mkdir {shlex.quote(basename)}")
+                # Change to the directory
+                self.execute_command(f"cd {shlex.quote(basename)}")
+                # Upload contents using the parallel system
+                for item in os.listdir(local_path):
+                    item_path = os.path.join(local_path, item)
+                    if os.path.isfile(item_path):
+                        self.upload_file_via_parallel_system(item_path, item)
+                # Go back to parent directory
+                self.execute_command("cd ..")
+            else:
+                # For files, use parallel upload directly
+                self.upload_file_via_parallel_system(local_path, target_remote_path)
+            return
+        
+        # Traditional command-based upload for non-parallel mode
         if preserve_structure and is_directory:
             # Create the directory on the server using just the basename
             self.execute_command(f"mkdir {shlex.quote(basename)}")
@@ -1188,10 +1468,15 @@ class GuiWidget(QMainWindow):
             self.server_log.append(f"DEBUG: Target file already exists: {local_file_path}")
             print(f"DEBUG: Target file already exists: {local_file_path}")
         
-        command = f"get {shlex.quote(remote_filename)} {shlex.quote(local_file_path)}"
-        self.execute_command(command)
-        
-        self.status_bar.showMessage(f"Downloading {remote_filename} to {local_file_path}...", 3000)
+        # If parallel transfers are enabled, use the parallel system
+        if self.parallel_enabled_checkbox.isChecked() and self.connection_pool:
+            self.download_file_via_parallel_system(remote_filename, local_file_path)
+        else:
+            # Use traditional command-based download
+            command = f"get {shlex.quote(remote_filename)} {shlex.quote(local_file_path)}"
+            self.execute_command(command)
+            
+            self.status_bar.showMessage(f"Downloading {remote_filename} to {local_file_path}...", 3000)
 
     def on_local_directory_selected(self, index):
         path = self.local_model.filePath(index)
@@ -1241,6 +1526,174 @@ class GuiWidget(QMainWindow):
                 self.execute_command(f"cd {shlex.quote(path)}")
         except Exception as e:
             QMessageBox.warning(self, "URL Parse Error", f"Failed to parse FTP URL: {str(e)}")
+
+    def update_connection_pool_size(self, size: int):
+        """Update the maximum number of connections in the pool"""
+        self.connection_pool.max_connections = size
+        
+    def toggle_parallel_transfers(self, enabled: bool):
+        """Enable or disable parallel transfers"""
+        self.batch_upload_btn.setEnabled(enabled and self.connection_status.text().startswith("Connected"))
+        self.batch_download_btn.setEnabled(enabled and self.connection_status.text().startswith("Connected"))
+        
+    def batch_upload_files(self):
+        """Upload multiple files in parallel"""
+        files, _ = QFileDialog.getOpenFileNames(
+            self, 
+            "Select Files to Upload",
+            self.local_address_bar.text(),
+            "All Files (*)"
+        )
+        
+        if files:
+            # Create upload jobs
+            jobs = self.transfer_queue_widget.create_upload_jobs(
+                files, 
+                self.current_remote_dir if self.current_remote_dir != "/" else ""
+            )
+            
+            # Add jobs to transfer queue
+            self.transfer_queue_widget.add_transfer_jobs(jobs)
+            
+            # Switch to transfer queue tab
+            self.main_tabs.setCurrentIndex(1)
+            
+            self.status_bar.showMessage(f"Queued {len(files)} files for upload", 3000)
+            
+    def batch_download_files(self):
+        """Download multiple selected files in parallel"""
+        selected_indexes = self.remote_list.selectedIndexes()
+        if not selected_indexes:
+            QMessageBox.information(self, "No Selection", "Please select files to download from the remote view.")
+            return
+            
+        # Get unique rows (since we have multiple columns)
+        selected_rows = list(set(index.row() for index in selected_indexes))
+        
+        # Get selected file names
+        remote_files = []
+        for row in selected_rows:
+            item = self.remote_model.item(row, 0)
+            if item:
+                filename = item.text()
+                # Skip ".." entry
+                if filename != "..":
+                    remote_files.append(filename)
+        
+        if not remote_files:
+            QMessageBox.information(self, "No Files", "No valid files selected for download.")
+            return
+            
+        # Ask user for download location
+        download_dir = QFileDialog.getExistingDirectory(
+            self,
+            "Select Download Location",
+            self.local_address_bar.text()
+        )
+        
+        if download_dir:
+            # Create download jobs
+            jobs = self.transfer_queue_widget.create_download_jobs(remote_files, download_dir)
+            
+            # Add jobs to transfer queue
+            self.transfer_queue_widget.add_transfer_jobs(jobs)
+            
+            # Switch to transfer queue tab
+            self.main_tabs.setCurrentIndex(1)
+            
+            self.status_bar.showMessage(f"Queued {len(remote_files)} files for download", 3000)
+
+    def upload_file(self, local_path, remote_path=None, preserve_structure=False):
+        """
+        Enhanced upload method that can use parallel transfers for multiple files
+        """
+        if self.parallel_enabled_checkbox.isChecked() and os.path.isdir(local_path):
+            # For directory uploads, create multiple jobs
+            self.upload_directory_parallel(local_path, remote_path, preserve_structure)
+        else:
+            # Use original single-file upload method
+            self.upload_file_single(local_path, remote_path, preserve_structure)
+            
+    def upload_file_single(self, local_path, remote_path=None, preserve_structure=False):
+        """
+        Original single-file upload method (renamed from upload_file)
+        """
+        is_directory = os.path.isdir(local_path)
+        
+        # Extract the filename/dirname from the path, discarding absolute path
+        basename = os.path.basename(local_path)
+        
+        # If we want to preserve the folder structure (when dropping directly)
+        if preserve_structure and is_directory:
+            # Create the directory on the server using just the basename
+            self.execute_command(f"mkdir {shlex.quote(basename)}")
+            
+            # Change into that directory
+            self.execute_command(f"cd {shlex.quote(basename)}")
+            
+            # Upload the contents using mput
+            self.execute_command(f"mput {shlex.quote(local_path)}")
+            
+            # Go back to the parent directory
+            self.execute_command("cd ..")
+        else:
+            # Standard upload without preserving structure
+            if is_directory:
+                # For directories, we need to create the directory first
+                self.execute_command(f"mkdir {shlex.quote(basename)}")
+                
+                # Then upload the contents
+                self.execute_command(f"mput {shlex.quote(local_path)}")
+            else:
+                # For files, just use put with the source path and optional target name
+                if remote_path:
+                    self.execute_command(f"put {shlex.quote(local_path)} {shlex.quote(remote_path)}")
+                else:
+                    # Use just the basename for the target to avoid path issues
+                    self.execute_command(f"put {shlex.quote(local_path)} {shlex.quote(basename)}")
+                    
+    def upload_directory_parallel(self, local_dir_path, remote_base_path=None, preserve_structure=False):
+        """Upload directory contents using parallel transfers"""
+        if not os.path.isdir(local_dir_path):
+            return
+            
+        # Get all files in the directory (recursively)
+        files_to_upload = []
+        for root, dirs, files in os.walk(local_dir_path):
+            for file in files:
+                local_file_path = os.path.join(root, file)
+                
+                # Calculate relative path from the source directory
+                rel_path = os.path.relpath(local_file_path, local_dir_path)
+                
+                # Create remote path
+                if remote_base_path:
+                    remote_file_path = f"{remote_base_path}/{rel_path}".replace("\\", "/")
+                else:
+                    remote_file_path = rel_path.replace("\\", "/")
+                
+                files_to_upload.append((local_file_path, remote_file_path))
+        
+        if files_to_upload:
+            # Create upload jobs
+            jobs = []
+            for local_file, remote_file in files_to_upload:
+                job = TransferJob(
+                    job_id=str(uuid.uuid4()),
+                    transfer_type=TransferType.UPLOAD,
+                    local_path=local_file,
+                    remote_path=remote_file,
+                    size=os.path.getsize(local_file)
+                )
+                jobs.append(job)
+            
+            # Add jobs to transfer queue
+            self.transfer_queue_widget.add_transfer_jobs(jobs)
+            
+            # Switch to transfer queue tab
+            self.main_tabs.setCurrentIndex(1)
+            
+            self.status_bar.showMessage(f"Queued {len(files_to_upload)} files for parallel upload", 3000)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

@@ -8,6 +8,9 @@
 // Enum để định nghĩa chế độ truyền file
 enum class TransferMode { ASCII, BINARY };
 
+// Progress callback type: (bytes_transferred, total_bytes) -> void
+using ProgressCallback = std::function<void(size_t, size_t)>;
+
 class FtpController {
 public:
     FtpController();
@@ -38,6 +41,10 @@ public:
     bool renameFile(const std::string& from, const std::string& to);
     bool downloadFile(const std::string& remote, const std::string& local);
     bool uploadFile(const std::string& local, const std::string& remote);
+    
+    // --- File Operations with Progress Callbacks ---
+    bool downloadFileWithProgress(const std::string& remote, const std::string& local, ProgressCallback callback = nullptr);
+    bool uploadFileWithProgress(const std::string& local, const std::string& remote, ProgressCallback callback = nullptr);
 
 private:
     SOCKET control_socket = INVALID_SOCKET;

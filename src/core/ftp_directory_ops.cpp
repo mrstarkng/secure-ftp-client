@@ -109,7 +109,9 @@ std::string FtpController::printWorkingDirectory() {
 bool FtpController::changeDirectory(const std::string& path) {
     if (!isConnected()) throw FtpException("Not connected.");
     
-    sendCommand("CWD " + path);
+    // Send CWD command with proper path handling for spaces
+    std::string cwd_command = "CWD \"" + path + "\"";
+    sendCommand(cwd_command);
     std::string reply = readReply();
     int code = parseResponseCode(reply);
     
@@ -125,7 +127,9 @@ bool FtpController::changeDirectory(const std::string& path) {
 bool FtpController::makeDirectory(const std::string& path) {
     if (!isConnected()) throw FtpException("Not connected.");
     
-    sendCommand("MKD " + path);
+    // Send MKD command with proper path handling for spaces
+    std::string mkd_command = "MKD \"" + path + "\"";
+    sendCommand(mkd_command);
     std::string reply = readReply();
     int code = parseResponseCode(reply);
     
@@ -142,7 +146,8 @@ bool FtpController::removeDirectory(const std::string& path) {
     if (!isConnected()) throw FtpException("Not connected.");
     
     // First, try to just remove the directory directly (in case it's empty)
-    sendCommand("RMD " + path);
+    std::string rmd_command = "RMD \"" + path + "\"";
+    sendCommand(rmd_command);
     std::string reply = readReply();
     int code = parseResponseCode(reply);
     
@@ -210,7 +215,8 @@ bool FtpController::removeDirectory(const std::string& path) {
     }
     
     // Now try to remove the directory again
-    sendCommand("RMD " + path);
+    rmd_command = "RMD \"" + path + "\"";
+    sendCommand(rmd_command);
     reply = readReply();
     code = parseResponseCode(reply);
     

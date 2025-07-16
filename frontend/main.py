@@ -1,5 +1,7 @@
 # file: main.py
+# -*- coding: utf-8 -*-
 import sys
+import os
 from PyQt6.QtWidgets import QApplication, QMainWindow, QTabWidget, QPushButton, QMenu
 from PyQt6.QtGui import QAction
 from PyQt6.QtCore import Qt
@@ -67,8 +69,19 @@ class MainWindow(QMainWindow):
             widget.deleteLater()
 
 if __name__ == "__main__":
+    # Ensure proper UTF-8 encoding for file paths
+    if sys.platform == "win32":
+        # Enable UTF-8 mode for Windows
+        os.environ["PYTHONIOENCODING"] = "utf-8"
+        # Set console encoding to UTF-8
+        if hasattr(sys.stdout, 'reconfigure'):
+            sys.stdout.reconfigure(encoding='utf-8')
+        if hasattr(sys.stderr, 'reconfigure'):
+            sys.stderr.reconfigure(encoding='utf-8')
+    
     app = QApplication(sys.argv)
     app.setStyle('Fusion')
+    
     window = MainWindow()
     window.show()
     sys.exit(app.exec())

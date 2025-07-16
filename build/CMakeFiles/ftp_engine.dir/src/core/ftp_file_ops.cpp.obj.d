@@ -391,4 +391,12 @@ CMakeFiles/ftp_engine.dir/src/core/ftp_file_ops.cpp.obj: \
  P:/msys64/ucrt64/include/c++/15.1.0/x86_64-w64-mingw32/bits/basic_file.h \
  P:/msys64/ucrt64/include/c++/15.1.0/x86_64-w64-mingw32/bits/c++io.h \
  P:/msys64/ucrt64/include/c++/15.1.0/bits/fstream.tcc \
- P:/msys64/ucrt64/include/c++/15.1.0/iostream
+ P:/msys64/ucrt64/include/c++/15.1.0/iostream \
+ P:/msys64/ucrt64/include/c++/15.1.0/codecvt \
+ P:/msys64/ucrt64/include/c++/15.1.0/locale \
+ P:/msys64/ucrt64/include/c++/15.1.0/bits/locale_facets_nonio.h \
+ P:/msys64/ucrt64/include/c++/15.1.0/ctime \
+ P:/msys64/ucrt64/include/c++/15.1.0/x86_64-w64-mingw32/bits/time_members.h \
+ P:/msys64/ucrt64/include/c++/15.1.0/x86_64-w64-mingw32/bits/messages_members.h \
+ P:/msys64/ucrt64/include/c++/15.1.0/bits/locale_facets_nonio.tcc \
+ P:/msys64/ucrt64/include/c++/15.1.0/bits/locale_conv.h

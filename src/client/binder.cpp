@@ -1,5 +1,6 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <pybind11/functional.h>
 #include "../core/command_handler.h"
 #include "../common/socket_utils.h"
 
@@ -39,5 +40,18 @@ PYBIND11_MODULE(ftp_engine, m) {
         .def("recv", &CommandHandler::handle_get, py::arg("args"), py::call_guard<py::gil_scoped_release>()) // Alias
         .def("put", &CommandHandler::handle_put, py::arg("args"), py::call_guard<py::gil_scoped_release>())
         .def("mget", &CommandHandler::handle_mget, py::arg("args"), py::call_guard<py::gil_scoped_release>())
-        .def("mput", &CommandHandler::handle_mput, py::arg("args"), py::call_guard<py::gil_scoped_release>());
+        .def("mput", &CommandHandler::handle_mput, py::arg("args"), py::call_guard<py::gil_scoped_release>())
+        
+        // --- Direct File Operations for Python ---
+        .def("uploadFile", &CommandHandler::uploadFile, py::arg("local"), py::arg("remote"), py::call_guard<py::gil_scoped_release>())
+        .def("downloadFile", &CommandHandler::downloadFile, py::arg("remote"), py::arg("local"), py::call_guard<py::gil_scoped_release>())
+        .def("uploadFileWithProgress", &CommandHandler::uploadFileWithProgress, py::arg("local"), py::arg("remote"), py::arg("callback"), py::call_guard<py::gil_scoped_release>())
+        .def("downloadFileWithProgress", &CommandHandler::downloadFileWithProgress, py::arg("remote"), py::arg("local"), py::arg("callback"), py::call_guard<py::gil_scoped_release>())
+        
+        // --- Connection Management for Python ---
+        .def("connect", &CommandHandler::connect, py::arg("host"), py::arg("port"), py::call_guard<py::gil_scoped_release>())
+        .def("login", &CommandHandler::login, py::arg("username"), py::arg("password"), py::call_guard<py::gil_scoped_release>())
+        .def("setPassive", &CommandHandler::setPassive, py::arg("passive"), py::call_guard<py::gil_scoped_release>())
+        .def("disconnect", &CommandHandler::disconnect, py::call_guard<py::gil_scoped_release>())
+        .def("isConnected", &CommandHandler::isConnected, py::call_guard<py::gil_scoped_release>());
 }
