@@ -3,8 +3,87 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <filesystem> // Add for local file system operations
+
+namespace fs = std::filesystem;
 
 CommandHandler::CommandHandler() : av(constants::AGENT_HOST, constants::AGENT_PORT) {}
+
+void CommandHandler::mgetRecursive(const std::string& remote_path, const std::string& local_path) {
+    // Ensure local directory exists
+    fs::create_directories(local_path);
+
+    // Get directory listing
+    std::string list_data = ftp.listDirectory(remote_path);
+    auto entries = ftp.parseListOutput(list_data);
+
+    for (const auto& entry : entries) {
+        std::string remote_entry_path = remote_path.empty() ? entry.first : remote_path + "/" + entry.first;
+        fs::path local_entry_path = fs::path(local_path) / entry.first;
+
+        if (entry.second) { // It's a directory
+            std::cout << "Entering directory: " << remote_entry_path << std::endl;
+            mgetRecursive(remote_entry_path, local_entry_path.string());
+        } else { // It's a file
+            std::cout << "Downloading " << remote_entry_path << " to " << local_entry_path.string() << std::endl;
+            ftp.downloadFile(remote_entry_path, local_entry_path.string());
+        }
+    }
+}
+
+void CommandHandler::mputRecursive(const fs::path& local_path, const std::string& remote_path) {
+    for (const auto& entry : fs::directory_iterator(local_path)) {
+        std::string remote_entry_path = remote_path.empty() ? entry.path().filename().string() : remote_path + "/" + entry.path().filename().string();
+
+        if (fs::is_directory(entry.status())) {
+            std::cout << "Creating remote directory: " << remote_entry_path << std::endl;
+            ftp.makeDirectory(remote_entry_path);
+            mputRecursive(entry.path(), remote_entry_path);
+        } else if (fs::is_regular_file(entry.status())) {
+            std::cout << "Uploading " << entry.path().string() << " to " << remote_entry_path << std::endl;
+            // You might want to add ClamAV scan here as well, similar to handle_put
+            ftp.uploadFile(entry.path().string(), remote_entry_path);
+        }
+    }
+}
+
+std::string CommandHandler::handle_mget(const std::vector<std::string>& args) {
+    if (!ftp.isConnected()) return "Error: Not connected.";
+    if (args.empty()) return "Usage: mget <remote_path> [local_path]";
+
+    std::string remote_path = args[0];
+    std::string local_path = (args.size() > 1) ? args[1] : ".";
+
+    try {
+        mgetRecursive(remote_path, local_path);
+        return "Multiple get operation completed.";
+    } catch (const FtpException& e) {
+        return std::string("Error during mget: ") + e.what();
+    } catch (const fs::filesystem_error& e) {
+        return std::string("Filesystem error during mget: ") + e.what();
+    }
+}
+
+std::string CommandHandler::handle_mput(const std::vector<std::string>& args) {
+    if (!ftp.isConnected()) return "Error: Not connected.";
+    if (args.empty()) return "Usage: mput <local_path> [remote_path]";
+
+    fs::path local_path = args[0];
+    std::string remote_path = (args.size() > 1) ? args[1] : "";
+
+    if (!fs::exists(local_path) || !fs::is_directory(local_path)) {
+        return "Error: Local path must be an existing directory.";
+    }
+
+    try {
+        mputRecursive(local_path, remote_path);
+        return "Multiple put operation completed.";
+    } catch (const FtpException& e) {
+        return std::string("Error during mput: ") + e.what();
+    } catch (const fs::filesystem_error& e) {
+        return std::string("Filesystem error during mput: ") + e.what();
+    }
+}
 
 std::string CommandHandler::handle_open(const std::vector<std::string>& args) {
     if (args.size() < 3) return "Usage: open <host> <user> <pass>";
@@ -24,7 +103,6 @@ std::string CommandHandler::handle_ls(const std::vector<std::string>& args) {
     if (!ftp.isConnected()) return "Error: Not connected.";
     std::string path = args.empty() ? "" : args[0];
     try {
-        // SỬA LỖI: Thêm 'return' để trả về kết quả
         return ftp.listDirectory(path);
     } catch (const FtpException& e) {
         return std::string("Error listing directory: ") + e.what();
@@ -47,7 +125,6 @@ std::string CommandHandler::handle_cd(const std::vector<std::string>& args) {
 std::string CommandHandler::handle_pwd() {
     if (!ftp.isConnected()) return "Error: Not connected.";
     try {
-        // SỬA LỖI: Thêm 'return' để trả về kết quả
         return ftp.printWorkingDirectory();
     } catch (const FtpException& e) {
         return std::string("Error: ") + e.what();
@@ -146,13 +223,9 @@ std::string CommandHandler::handle_get(const std::vector<std::string>& args) {
     return "Failed to download file.";
 }
 
-std::string CommandHandler::handle_mget(const std::vector<std::string>& args) {
-    return "mget command not implemented yet.";
-}
-
-std::string CommandHandler::handle_mput(const std::vector<std::string>& args) {
-    return "mput command not implemented yet.";
-}
+// =================================================================
+// === RECURSIVE IMPLEMENTATIONS SECTION ===
+// =================================================================
 
 // =================================================================
 // === HÀM BỊ THIẾU ĐƯỢC THÊM VÀO ĐÂY ===

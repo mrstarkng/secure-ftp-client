@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include <utility>
 #include <winsock2.h>
 
 // Enum để định nghĩa chế độ truyền file
@@ -27,6 +28,7 @@ public:
     // --- Directory Operations ---
     std::string listDirectory(const std::string& path);
     std::string printWorkingDirectory();
+    std::vector<std::pair<std::string, bool>> parseListOutput(const std::string& list_data);
     bool changeDirectory(const std::string& path);
     bool makeDirectory(const std::string& path);
     bool removeDirectory(const std::string& path);
@@ -44,10 +46,8 @@ private:
     std::string current_host;
     std::string current_user;
 
-    // Bộ đệm cho các phản hồi từ control connection để xử lý lỗi đồng bộ hóa
     std::string control_buffer; 
 
-    // Các hàm helper private
     void sendCommand(const std::string& cmd);
     std::string readReply();
     SOCKET createDataConnection();

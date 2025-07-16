@@ -116,6 +116,8 @@ CMakeFiles/ftp_engine.dir/src/core/ftp_directory_ops.cpp.obj: \
  P:/msys64/ucrt64/include/c++/15.1.0/bits/erase_if.h \
  P:/msys64/ucrt64/include/c++/15.1.0/array \
  P:/msys64/ucrt64/include/c++/15.1.0/compare \
+ P:/msys64/ucrt64/include/c++/15.1.0/utility \
+ P:/msys64/ucrt64/include/c++/15.1.0/bits/stl_relops.h \
  P:/msys64/ucrt64/include/winsock2.h \
  P:/msys64/ucrt64/include/_mingw_unicode.h \
  P:/msys64/ucrt64/include/windows.h P:/msys64/ucrt64/include/sdkddkver.h \
@@ -384,4 +386,6 @@ CMakeFiles/ftp_engine.dir/src/core/ftp_directory_ops.cpp.obj: \
  P:/msys64/ucrt64/include/c++/15.1.0/bits/basic_ios.tcc \
  P:/msys64/ucrt64/include/c++/15.1.0/bits/ostream.tcc \
  P:/msys64/ucrt64/include/c++/15.1.0/istream \
- P:/msys64/ucrt64/include/c++/15.1.0/bits/istream.tcc
+ P:/msys64/ucrt64/include/c++/15.1.0/bits/istream.tcc \
+ P:/msys64/ucrt64/include/c++/15.1.0/sstream \
+ P:/msys64/ucrt64/include/c++/15.1.0/bits/sstream.tcc

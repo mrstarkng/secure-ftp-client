@@ -104,6 +104,11 @@ CMakeFiles/ftp_engine.dir/src/common/socket_utils.cpp.obj: \
  P:/msys64/ucrt64/include/c++/15.1.0/bits/uses_allocator.h \
  P:/msys64/ucrt64/include/c++/15.1.0/bits/uses_allocator_args.h \
  P:/msys64/ucrt64/include/c++/15.1.0/tuple \
+ P:/msys64/ucrt64/include/c++/15.1.0/vector \
+ P:/msys64/ucrt64/include/c++/15.1.0/bits/stl_uninitialized.h \
+ P:/msys64/ucrt64/include/c++/15.1.0/bits/stl_vector.h \
+ P:/msys64/ucrt64/include/c++/15.1.0/bits/stl_bvector.h \
+ P:/msys64/ucrt64/include/c++/15.1.0/bits/vector.tcc \
  P:/msys64/ucrt64/include/winsock2.h \
  P:/msys64/ucrt64/include/_mingw_unicode.h \
  P:/msys64/ucrt64/include/windows.h P:/msys64/ucrt64/include/sdkddkver.h \

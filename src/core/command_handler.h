@@ -4,6 +4,7 @@
 #include "../common/socket_utils.h"
 #include <vector>
 #include <string>
+#include <filesystem> // Add for local file system operations
 
 class CommandHandler {
 public:
@@ -36,6 +37,10 @@ public:
     std::string handle_mput(const std::vector<std::string>& args);
 
 private:
+    // Add private helpers for recursion
+    void mgetRecursive(const std::string& remote_path, const std::string& local_path);
+    void mputRecursive(const std::filesystem::path& local_path, const std::string& remote_path);
+
     FtpController ftp;
     ClamavConnector av;
     WsaInitializer wsa;

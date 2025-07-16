@@ -4,20 +4,20 @@ events:
   -
     kind: "message-v1"
     backtrace:
-      - "P:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineSystem.cmake:205 (message)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:205 (message)"
       - "CMakeLists.txt:5 (project)"
     message: |
       The system is: Windows - 10.0.26100 - AMD64
   -
     kind: "message-v1"
     backtrace:
-      - "P:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
-      - "P:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
-      - "P:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
       - "CMakeLists.txt:5 (project)"
     message: |
       Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
-      Compiler: P:/msys64/ucrt64/bin/c++.exe 
+      Compiler: P:/msys64/ucrt64/bin/g++.exe 
       Build flags: 
       Id flags:  
       
@@ -28,19 +28,19 @@ events:
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.exe"
       
       The CXX compiler identification is GNU, found in:
-        P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/4.0.3/CompilerIdCXX/a.exe
+        P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/3.31.2/CompilerIdCXX/a.exe
       
   -
     kind: "try_compile-v1"
     backtrace:
-      - "P:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:83 (try_compile)"
-      - "P:/msys64/ucrt64/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
       - "CMakeLists.txt:5 (project)"
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/CMakeScratch/TryCompile-xlun1c"
-      binary: "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/CMakeScratch/TryCompile-xlun1c"
+      source: "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/CMakeScratch/TryCompile-qd1sbs"
+      binary: "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/CMakeScratch/TryCompile-qd1sbs"
     cmakeVariables:
       CMAKE_CXX_FLAGS: ""
       CMAKE_CXX_FLAGS_DEBUG: "-g"
@@ -50,22 +50,22 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/CMakeScratch/TryCompile-xlun1c'
+        Change Dir: 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/CMakeScratch/TryCompile-qd1sbs'
         
-        Run Build Command(s): P:/msys64/ucrt64/bin/cmake.exe -E env VERBOSE=1 P:/msys64/ucrt64/bin/mingw32-make.exe -f Makefile cmTC_d9371/fast
-        P:/msys64/ucrt64/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_d9371.dir\\build.make CMakeFiles/cmTC_d9371.dir/build
-        mingw32-make[1]: Entering directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/CMakeScratch/TryCompile-xlun1c'
-        Building CXX object CMakeFiles/cmTC_d9371.dir/CMakeCXXCompilerABI.cpp.obj
-        P:\\msys64\\ucrt64\\bin\\c++.exe   -v -o CMakeFiles\\cmTC_d9371.dir\\CMakeCXXCompilerABI.cpp.obj -c P:\\msys64\\ucrt64\\share\\cmake\\Modules\\CMakeCXXCompilerABI.cpp
+        Run Build Command(s): "D:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 P:/msys64/ucrt64/bin/mingw32-make.exe -f Makefile cmTC_c7dec/fast
+        P:/msys64/ucrt64/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_c7dec.dir\\build.make CMakeFiles/cmTC_c7dec.dir/build
+        mingw32-make[1]: Entering directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/CMakeScratch/TryCompile-qd1sbs'
+        Building CXX object CMakeFiles/cmTC_c7dec.dir/CMakeCXXCompilerABI.cpp.obj
+        P:\\msys64\\ucrt64\\bin\\g++.exe   -v -o CMakeFiles\\cmTC_c7dec.dir\\CMakeCXXCompilerABI.cpp.obj -c "D:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"
         Using built-in specs.
-        COLLECT_GCC=P:\\msys64\\ucrt64\\bin\\c++.exe
+        COLLECT_GCC=P:\\msys64\\ucrt64\\bin\\g++.exe
         Target: x86_64-w64-mingw32
         Configured with: ../gcc-15.1.0/configure --prefix=/ucrt64 --with-local-prefix=/ucrt64/local --with-native-system-header-dir=/ucrt64/include --libexecdir=/ucrt64/lib --enable-bootstrap --enable-checking=release --with-arch=nocona --with-tune=generic --enable-mingw-wildcard --enable-languages=c,lto,c++,fortran,ada,objc,obj-c++,jit --enable-shared --enable-static --enable-libatomic --enable-threads=posix --enable-graphite --enable-fully-dynamic-string --enable-libstdcxx-backtrace=yes --enable-libstdcxx-filesystem-ts --enable-libstdcxx-time --disable-libstdcxx-pch --enable-lto --enable-libgomp --disable-libssp --disable-multilib --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-libiconv --with-system-zlib --with-gmp=/ucrt64 --with-mpfr=/ucrt64 --with-mpc=/ucrt64 --with-isl=/ucrt64 --with-pkgversion='Rev5, Built by MSYS2 project' --with-bugurl=https://github.com/msys2/MINGW-packages/issues --with-gnu-as --with-gnu-ld --disable-libstdcxx-debug --enable-plugin --with-boot-ldflags=-static-libstdc++ --with-stage1-ldflags=-static-libstdc++
         Thread model: posix
         Supported LTO compression algorithms: zlib zstd
         gcc version 15.1.0 (Rev5, Built by MSYS2 project) 
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_d9371.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_d9371.dir\\'
-         P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/cc1plus.exe -quiet -v -iprefix P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/ -D_REENTRANT P:\\msys64\\ucrt64\\share\\cmake\\Modules\\CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles\\cmTC_d9371.dir\\ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=nocona -version -o P:\\msys64\\tmp\\cclEQD0Z.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_c7dec.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_c7dec.dir\\'
+         P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/cc1plus.exe -quiet -v -iprefix P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/ -D_REENTRANT D:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles\\cmTC_c7dec.dir\\ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=nocona -version -o D:\\Users\\minhh\\AppData\\Local\\Temp\\cc8UHaYC.s
         GNU C++17 (Rev5, Built by MSYS2 project) version 15.1.0 (x86_64-w64-mingw32)
         	compiled by GNU C version 15.1.0, GMP version 6.3.0, MPFR version 4.2.2, MPC version 1.3.1, isl version isl-0.27-GMP
         
@@ -90,19 +90,19 @@ events:
          P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/include-fixed
         End of search list.
         Compiler executable checksum: 38bb978cbac8ce31a14905c90ffc8790
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_d9371.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_d9371.dir\\'
-         P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/bin/as.exe -v -o CMakeFiles\\cmTC_d9371.dir\\CMakeCXXCompilerABI.cpp.obj P:\\msys64\\tmp\\cclEQD0Z.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_c7dec.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_c7dec.dir\\'
+         P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/bin/as.exe -v -o CMakeFiles\\cmTC_c7dec.dir\\CMakeCXXCompilerABI.cpp.obj D:\\Users\\minhh\\AppData\\Local\\Temp\\cc8UHaYC.s
         GNU assembler version 2.44 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.44
         COMPILER_PATH=P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/;P:/msys64/ucrt64/bin/../lib/gcc/;P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/bin/
         LIBRARY_PATH=P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/;P:/msys64/ucrt64/bin/../lib/gcc/;P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/lib/../lib/;P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/;P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/lib/;P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_d9371.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_d9371.dir\\CMakeCXXCompilerABI.cpp.'
-        Linking CXX executable cmTC_d9371.exe
-        P:\\msys64\\ucrt64\\bin\\cmake.exe -E cmake_link_script CMakeFiles\\cmTC_d9371.dir\\link.txt --verbose=1
-        P:\\msys64\\ucrt64\\bin\\cmake.exe -E rm -f CMakeFiles\\cmTC_d9371.dir/objects.a
-        P:\\msys64\\ucrt64\\bin\\ar.exe qc CMakeFiles\\cmTC_d9371.dir/objects.a @CMakeFiles\\cmTC_d9371.dir\\objects1.rsp
-        P:\\msys64\\ucrt64\\bin\\c++.exe  -v -Wl,-v -Wl,--whole-archive CMakeFiles\\cmTC_d9371.dir/objects.a -Wl,--no-whole-archive -o cmTC_d9371.exe -Wl,--out-implib,libcmTC_d9371.dll.a -Wl,--major-image-version,0,--minor-image-version,0
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_c7dec.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_c7dec.dir\\CMakeCXXCompilerABI.cpp.'
+        Linking CXX executable cmTC_c7dec.exe
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_c7dec.dir\\link.txt --verbose=1
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\cmTC_c7dec.dir/objects.a
+        P:\\msys64\\ucrt64\\bin\\ar.exe qc CMakeFiles\\cmTC_c7dec.dir/objects.a @CMakeFiles\\cmTC_c7dec.dir\\objects1.rsp
+        P:\\msys64\\ucrt64\\bin\\g++.exe  -v -Wl,-v -Wl,--whole-archive CMakeFiles\\cmTC_c7dec.dir/objects.a -Wl,--no-whole-archive -o cmTC_c7dec.exe -Wl,--out-implib,libcmTC_c7dec.dll.a -Wl,--major-image-version,0,--minor-image-version,0
         Using built-in specs.
-        COLLECT_GCC=P:\\msys64\\ucrt64\\bin\\c++.exe
+        COLLECT_GCC=P:\\msys64\\ucrt64\\bin\\g++.exe
         COLLECT_LTO_WRAPPER=P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/lto-wrapper.exe
         Target: x86_64-w64-mingw32
         Configured with: ../gcc-15.1.0/configure --prefix=/ucrt64 --with-local-prefix=/ucrt64/local --with-native-system-header-dir=/ucrt64/include --libexecdir=/ucrt64/lib --enable-bootstrap --enable-checking=release --with-arch=nocona --with-tune=generic --enable-mingw-wildcard --enable-languages=c,lto,c++,fortran,ada,objc,obj-c++,jit --enable-shared --enable-static --enable-libatomic --enable-threads=posix --enable-graphite --enable-fully-dynamic-string --enable-libstdcxx-backtrace=yes --enable-libstdcxx-filesystem-ts --enable-libstdcxx-time --disable-libstdcxx-pch --enable-lto --enable-libgomp --disable-libssp --disable-multilib --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-libiconv --with-system-zlib --with-gmp=/ucrt64 --with-mpfr=/ucrt64 --with-mpc=/ucrt64 --with-isl=/ucrt64 --with-pkgversion='Rev5, Built by MSYS2 project' --with-bugurl=https://github.com/msys2/MINGW-packages/issues --with-gnu-as --with-gnu-ld --disable-libstdcxx-debug --enable-plugin --with-boot-ldflags=-static-libstdc++ --with-stage1-ldflags=-static-libstdc++
@@ -111,20 +111,20 @@ events:
         gcc version 15.1.0 (Rev5, Built by MSYS2 project) 
         COMPILER_PATH=P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/;P:/msys64/ucrt64/bin/../lib/gcc/;P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/bin/
         LIBRARY_PATH=P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/;P:/msys64/ucrt64/bin/../lib/gcc/;P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/lib/../lib/;P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/;P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/lib/;P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_d9371.exe' '-shared-libgcc' '-mtune=generic' '-march=nocona' '-dumpdir' 'cmTC_d9371.'
-         P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/collect2.exe -plugin P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/liblto_plugin.dll -plugin-opt=P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/lto-wrapper.exe -plugin-opt=-fresolution=P:\\msys64\\tmp\\cc5vfRze.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -m i386pep -Bdynamic -o cmTC_d9371.exe P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/crt2.o P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/crtbegin.o -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0 -LP:/msys64/ucrt64/bin/../lib/gcc -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/lib/../lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../.. -v --whole-archive CMakeFiles\\cmTC_d9371.dir/objects.a --no-whole-archive --out-implib libcmTC_d9371.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/default-manifest.o P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/crtend.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_c7dec.exe' '-shared-libgcc' '-mtune=generic' '-march=nocona' '-dumpdir' 'cmTC_c7dec.'
+         P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/collect2.exe -plugin P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/liblto_plugin.dll -plugin-opt=P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/lto-wrapper.exe -plugin-opt=-fresolution=D:\\Users\\minhh\\AppData\\Local\\Temp\\ccuw99hX.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -m i386pep -Bdynamic -o cmTC_c7dec.exe P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/crt2.o P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/crtbegin.o -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0 -LP:/msys64/ucrt64/bin/../lib/gcc -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/lib/../lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../.. -v --whole-archive CMakeFiles\\cmTC_c7dec.dir/objects.a --no-whole-archive --out-implib libcmTC_c7dec.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/default-manifest.o P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/crtend.o
         collect2 version 15.1.0
-        P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/bin/ld.exe -plugin P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/liblto_plugin.dll -plugin-opt=P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/lto-wrapper.exe -plugin-opt=-fresolution=P:\\msys64\\tmp\\cc5vfRze.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -m i386pep -Bdynamic -o cmTC_d9371.exe P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/crt2.o P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/crtbegin.o -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0 -LP:/msys64/ucrt64/bin/../lib/gcc -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/lib/../lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../.. -v --whole-archive CMakeFiles\\cmTC_d9371.dir/objects.a --no-whole-archive --out-implib libcmTC_d9371.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/default-manifest.o P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/crtend.o
+        P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/bin/ld.exe -plugin P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/liblto_plugin.dll -plugin-opt=P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/lto-wrapper.exe -plugin-opt=-fresolution=D:\\Users\\minhh\\AppData\\Local\\Temp\\ccuw99hX.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -m i386pep -Bdynamic -o cmTC_c7dec.exe P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/crt2.o P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/crtbegin.o -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0 -LP:/msys64/ucrt64/bin/../lib/gcc -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/lib/../lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../.. -v --whole-archive CMakeFiles\\cmTC_c7dec.dir/objects.a --no-whole-archive --out-implib libcmTC_c7dec.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/default-manifest.o P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/crtend.o
         GNU ld (GNU Binutils) 2.44
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_d9371.exe' '-shared-libgcc' '-mtune=generic' '-march=nocona' '-dumpdir' 'cmTC_d9371.'
-        mingw32-make[1]: Leaving directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/CMakeScratch/TryCompile-xlun1c'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_c7dec.exe' '-shared-libgcc' '-mtune=generic' '-march=nocona' '-dumpdir' 'cmTC_c7dec.'
+        mingw32-make[1]: Leaving directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/CMakeScratch/TryCompile-qd1sbs'
         
       exitCode: 0
   -
     kind: "message-v1"
     backtrace:
-      - "P:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:191 (message)"
-      - "P:/msys64/ucrt64/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:182 (message)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
       - "CMakeLists.txt:5 (project)"
     message: |
       Parsed CXX implicit include dir info: rv=done
@@ -149,29 +149,29 @@ events:
   -
     kind: "message-v1"
     backtrace:
-      - "P:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:227 (message)"
-      - "P:/msys64/ucrt64/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:218 (message)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
       - "CMakeLists.txt:5 (project)"
     message: |
       Parsed CXX implicit link information:
-        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
-        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/CMakeScratch/TryCompile-xlun1c']
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(\\.[a-z]+)?))("|,| |$)]
+        ignore line: [Change Dir: 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/CMakeScratch/TryCompile-qd1sbs']
         ignore line: []
-        ignore line: [Run Build Command(s): P:/msys64/ucrt64/bin/cmake.exe -E env VERBOSE=1 P:/msys64/ucrt64/bin/mingw32-make.exe -f Makefile cmTC_d9371/fast]
-        ignore line: [P:/msys64/ucrt64/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_d9371.dir\\build.make CMakeFiles/cmTC_d9371.dir/build]
-        ignore line: [mingw32-make[1]: Entering directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/CMakeScratch/TryCompile-xlun1c']
-        ignore line: [Building CXX object CMakeFiles/cmTC_d9371.dir/CMakeCXXCompilerABI.cpp.obj]
-        ignore line: [P:\\msys64\\ucrt64\\bin\\c++.exe   -v -o CMakeFiles\\cmTC_d9371.dir\\CMakeCXXCompilerABI.cpp.obj -c P:\\msys64\\ucrt64\\share\\cmake\\Modules\\CMakeCXXCompilerABI.cpp]
+        ignore line: [Run Build Command(s): "D:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 P:/msys64/ucrt64/bin/mingw32-make.exe -f Makefile cmTC_c7dec/fast]
+        ignore line: [P:/msys64/ucrt64/bin/mingw32-make.exe  -f CMakeFiles\\cmTC_c7dec.dir\\build.make CMakeFiles/cmTC_c7dec.dir/build]
+        ignore line: [mingw32-make[1]: Entering directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/CMakeScratch/TryCompile-qd1sbs']
+        ignore line: [Building CXX object CMakeFiles/cmTC_c7dec.dir/CMakeCXXCompilerABI.cpp.obj]
+        ignore line: [P:\\msys64\\ucrt64\\bin\\g++.exe   -v -o CMakeFiles\\cmTC_c7dec.dir\\CMakeCXXCompilerABI.cpp.obj -c "D:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"]
         ignore line: [Using built-in specs.]
-        ignore line: [COLLECT_GCC=P:\\msys64\\ucrt64\\bin\\c++.exe]
+        ignore line: [COLLECT_GCC=P:\\msys64\\ucrt64\\bin\\g++.exe]
         ignore line: [Target: x86_64-w64-mingw32]
         ignore line: [Configured with: ../gcc-15.1.0/configure --prefix=/ucrt64 --with-local-prefix=/ucrt64/local --with-native-system-header-dir=/ucrt64/include --libexecdir=/ucrt64/lib --enable-bootstrap --enable-checking=release --with-arch=nocona --with-tune=generic --enable-mingw-wildcard --enable-languages=c,lto,c++,fortran,ada,objc,obj-c++,jit --enable-shared --enable-static --enable-libatomic --enable-threads=posix --enable-graphite --enable-fully-dynamic-string --enable-libstdcxx-backtrace=yes --enable-libstdcxx-filesystem-ts --enable-libstdcxx-time --disable-libstdcxx-pch --enable-lto --enable-libgomp --disable-libssp --disable-multilib --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-libiconv --with-system-zlib --with-gmp=/ucrt64 --with-mpfr=/ucrt64 --with-mpc=/ucrt64 --with-isl=/ucrt64 --with-pkgversion='Rev5, Built by MSYS2 project' --with-bugurl=https://github.com/msys2/MINGW-packages/issues --with-gnu-as --with-gnu-ld --disable-libstdcxx-debug --enable-plugin --with-boot-ldflags=-static-libstdc++ --with-stage1-ldflags=-static-libstdc++]
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib zstd]
         ignore line: [gcc version 15.1.0 (Rev5  Built by MSYS2 project) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_d9371.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_d9371.dir\\']
-        ignore line: [ P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/cc1plus.exe -quiet -v -iprefix P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/ -D_REENTRANT P:\\msys64\\ucrt64\\share\\cmake\\Modules\\CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles\\cmTC_d9371.dir\\ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=nocona -version -o P:\\msys64\\tmp\\cclEQD0Z.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_c7dec.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_c7dec.dir\\']
+        ignore line: [ P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/cc1plus.exe -quiet -v -iprefix P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/ -D_REENTRANT D:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles\\cmTC_c7dec.dir\\ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=nocona -version -o D:\\Users\\minhh\\AppData\\Local\\Temp\\cc8UHaYC.s]
         ignore line: [GNU C++17 (Rev5  Built by MSYS2 project) version 15.1.0 (x86_64-w64-mingw32)]
         ignore line: [	compiled by GNU C version 15.1.0  GMP version 6.3.0  MPFR version 4.2.2  MPC version 1.3.1  isl version isl-0.27-GMP]
         ignore line: []
@@ -196,8 +196,8 @@ events:
         ignore line: [ P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/include-fixed]
         ignore line: [End of search list.]
         ignore line: [Compiler executable checksum: 38bb978cbac8ce31a14905c90ffc8790]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_d9371.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_d9371.dir\\']
-        ignore line: [ P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/bin/as.exe -v -o CMakeFiles\\cmTC_d9371.dir\\CMakeCXXCompilerABI.cpp.obj P:\\msys64\\tmp\\cclEQD0Z.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_c7dec.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_c7dec.dir\\']
+        ignore line: [ P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/bin/as.exe -v -o CMakeFiles\\cmTC_c7dec.dir\\CMakeCXXCompilerABI.cpp.obj D:\\Users\\minhh\\AppData\\Local\\Temp\\cc8UHaYC.s]
         ignore line: [GNU assembler version 2.44 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.44]
         ignore line: [COMPILER_PATH=P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/]
         ignore line: [P:/msys64/ucrt64/bin/../lib/gcc/]
@@ -208,14 +208,14 @@ events:
         ignore line: [P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/]
         ignore line: [P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/lib/]
         ignore line: [P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_d9371.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_d9371.dir\\CMakeCXXCompilerABI.cpp.']
-        ignore line: [Linking CXX executable cmTC_d9371.exe]
-        ignore line: [P:\\msys64\\ucrt64\\bin\\cmake.exe -E cmake_link_script CMakeFiles\\cmTC_d9371.dir\\link.txt --verbose=1]
-        ignore line: [P:\\msys64\\ucrt64\\bin\\cmake.exe -E rm -f CMakeFiles\\cmTC_d9371.dir/objects.a]
-        ignore line: [P:\\msys64\\ucrt64\\bin\\ar.exe qc CMakeFiles\\cmTC_d9371.dir/objects.a @CMakeFiles\\cmTC_d9371.dir\\objects1.rsp]
-        ignore line: [P:\\msys64\\ucrt64\\bin\\c++.exe  -v -Wl -v -Wl --whole-archive CMakeFiles\\cmTC_d9371.dir/objects.a -Wl --no-whole-archive -o cmTC_d9371.exe -Wl --out-implib libcmTC_d9371.dll.a -Wl --major-image-version 0 --minor-image-version 0]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\\cmTC_c7dec.dir\\CMakeCXXCompilerABI.cpp.obj' '-c' '-shared-libgcc' '-mtune=generic' '-march=nocona' '-dumpdir' 'CMakeFiles\\cmTC_c7dec.dir\\CMakeCXXCompilerABI.cpp.']
+        ignore line: [Linking CXX executable cmTC_c7dec.exe]
+        ignore line: ["D:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\cmTC_c7dec.dir\\link.txt --verbose=1]
+        ignore line: ["D:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\cmTC_c7dec.dir/objects.a]
+        ignore line: [P:\\msys64\\ucrt64\\bin\\ar.exe qc CMakeFiles\\cmTC_c7dec.dir/objects.a @CMakeFiles\\cmTC_c7dec.dir\\objects1.rsp]
+        ignore line: [P:\\msys64\\ucrt64\\bin\\g++.exe  -v -Wl -v -Wl --whole-archive CMakeFiles\\cmTC_c7dec.dir/objects.a -Wl --no-whole-archive -o cmTC_c7dec.exe -Wl --out-implib libcmTC_c7dec.dll.a -Wl --major-image-version 0 --minor-image-version 0]
         ignore line: [Using built-in specs.]
-        ignore line: [COLLECT_GCC=P:\\msys64\\ucrt64\\bin\\c++.exe]
+        ignore line: [COLLECT_GCC=P:\\msys64\\ucrt64\\bin\\g++.exe]
         ignore line: [COLLECT_LTO_WRAPPER=P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/lto-wrapper.exe]
         ignore line: [Target: x86_64-w64-mingw32]
         ignore line: [Configured with: ../gcc-15.1.0/configure --prefix=/ucrt64 --with-local-prefix=/ucrt64/local --with-native-system-header-dir=/ucrt64/include --libexecdir=/ucrt64/lib --enable-bootstrap --enable-checking=release --with-arch=nocona --with-tune=generic --enable-mingw-wildcard --enable-languages=c,lto,c++,fortran,ada,objc,obj-c++,jit --enable-shared --enable-static --enable-libatomic --enable-threads=posix --enable-graphite --enable-fully-dynamic-string --enable-libstdcxx-backtrace=yes --enable-libstdcxx-filesystem-ts --enable-libstdcxx-time --disable-libstdcxx-pch --enable-lto --enable-libgomp --disable-libssp --disable-multilib --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-libiconv --with-system-zlib --with-gmp=/ucrt64 --with-mpfr=/ucrt64 --with-mpc=/ucrt64 --with-isl=/ucrt64 --with-pkgversion='Rev5, Built by MSYS2 project' --with-bugurl=https://github.com/msys2/MINGW-packages/issues --with-gnu-as --with-gnu-ld --disable-libstdcxx-debug --enable-plugin --with-boot-ldflags=-static-libstdc++ --with-stage1-ldflags=-static-libstdc++]
@@ -231,13 +231,13 @@ events:
         ignore line: [P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/]
         ignore line: [P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/lib/]
         ignore line: [P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_d9371.exe' '-shared-libgcc' '-mtune=generic' '-march=nocona' '-dumpdir' 'cmTC_d9371.']
-        link line: [ P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/collect2.exe -plugin P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/liblto_plugin.dll -plugin-opt=P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/lto-wrapper.exe -plugin-opt=-fresolution=P:\\msys64\\tmp\\cc5vfRze.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -m i386pep -Bdynamic -o cmTC_d9371.exe P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/crt2.o P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/crtbegin.o -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0 -LP:/msys64/ucrt64/bin/../lib/gcc -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/lib/../lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../.. -v --whole-archive CMakeFiles\\cmTC_d9371.dir/objects.a --no-whole-archive --out-implib libcmTC_d9371.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/default-manifest.o P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/crtend.o]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_c7dec.exe' '-shared-libgcc' '-mtune=generic' '-march=nocona' '-dumpdir' 'cmTC_c7dec.']
+        link line: [ P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/collect2.exe -plugin P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/liblto_plugin.dll -plugin-opt=P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/lto-wrapper.exe -plugin-opt=-fresolution=D:\\Users\\minhh\\AppData\\Local\\Temp\\ccuw99hX.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -m i386pep -Bdynamic -o cmTC_c7dec.exe P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/crt2.o P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/crtbegin.o -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0 -LP:/msys64/ucrt64/bin/../lib/gcc -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/lib/../lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../.. -v --whole-archive CMakeFiles\\cmTC_c7dec.dir/objects.a --no-whole-archive --out-implib libcmTC_c7dec.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/default-manifest.o P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/crtend.o]
           arg [P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/collect2.exe] ==> ignore
           arg [-plugin] ==> ignore
           arg [P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/liblto_plugin.dll] ==> ignore
           arg [-plugin-opt=P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/lto-wrapper.exe] ==> ignore
-          arg [-plugin-opt=-fresolution=P:\\msys64\\tmp\\cc5vfRze.res] ==> ignore
+          arg [-plugin-opt=-fresolution=D:\\Users\\minhh\\AppData\\Local\\Temp\\ccuw99hX.res] ==> ignore
           arg [-plugin-opt=-pass-through=-lmingw32] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
@@ -259,7 +259,7 @@ events:
           arg [i386pep] ==> ignore
           arg [-Bdynamic] ==> search dynamic
           arg [-o] ==> ignore
-          arg [cmTC_d9371.exe] ==> ignore
+          arg [cmTC_c7dec.exe] ==> ignore
           arg [P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/crt2.o] ==> obj [P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/crt2.o]
           arg [P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/crtbegin.o] ==> obj [P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/crtbegin.o]
           arg [-LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0] ==> dir [P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0]
@@ -270,10 +270,10 @@ events:
           arg [-LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../..] ==> dir [P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../..]
           arg [-v] ==> ignore
           arg [--whole-archive] ==> ignore
-          arg [CMakeFiles\\cmTC_d9371.dir/objects.a] ==> ignore
+          arg [CMakeFiles\\cmTC_c7dec.dir/objects.a] ==> ignore
           arg [--no-whole-archive] ==> ignore
           arg [--out-implib] ==> ignore
-          arg [libcmTC_d9371.dll.a] ==> ignore
+          arg [libcmTC_c7dec.dll.a] ==> ignore
           arg [--major-image-version] ==> ignore
           arg [0] ==> ignore
           arg [--minor-image-version] ==> ignore
@@ -299,7 +299,7 @@ events:
           arg [P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/default-manifest.o] ==> obj [P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/default-manifest.o]
           arg [P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/crtend.o] ==> obj [P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/crtend.o]
         ignore line: [collect2 version 15.1.0]
-        ignore line: [P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/bin/ld.exe -plugin P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/liblto_plugin.dll -plugin-opt=P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/lto-wrapper.exe -plugin-opt=-fresolution=P:\\msys64\\tmp\\cc5vfRze.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -m i386pep -Bdynamic -o cmTC_d9371.exe P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/crt2.o P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/crtbegin.o -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0 -LP:/msys64/ucrt64/bin/../lib/gcc -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/lib/../lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../.. -v --whole-archive CMakeFiles\\cmTC_d9371.dir/objects.a --no-whole-archive --out-implib libcmTC_d9371.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/default-manifest.o P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/crtend.o]
+        ignore line: [P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/bin/ld.exe -plugin P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/liblto_plugin.dll -plugin-opt=P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/lto-wrapper.exe -plugin-opt=-fresolution=D:\\Users\\minhh\\AppData\\Local\\Temp\\ccuw99hX.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -m i386pep -Bdynamic -o cmTC_c7dec.exe P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/crt2.o P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/crtbegin.o -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0 -LP:/msys64/ucrt64/bin/../lib/gcc -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/lib/../lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../x86_64-w64-mingw32/lib -LP:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../.. -v --whole-archive CMakeFiles\\cmTC_c7dec.dir/objects.a --no-whole-archive --out-implib libcmTC_c7dec.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc_s -lgcc -lmingwex -lmsvcrt -lkernel32 P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/../../../../lib/default-manifest.o P:/msys64/ucrt64/bin/../lib/gcc/x86_64-w64-mingw32/15.1.0/crtend.o]
         linker tool for 'CXX': P:/msys64/ucrt64/x86_64-w64-mingw32/bin/ld.exe
         remove lib [msvcrt]
         remove lib [msvcrt]
@@ -322,11 +322,203 @@ events:
   -
     kind: "message-v1"
     backtrace:
-      - "P:/msys64/ucrt64/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake:36 (message)"
-      - "P:/msys64/ucrt64/share/cmake/Modules/CMakeDetermineCompilerABI.cmake:270 (cmake_determine_linker_id)"
-      - "P:/msys64/ucrt64/share/cmake/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/Internal/CMakeDetermineLinkerId.cmake:40 (message)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:255 (cmake_determine_linker_id)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
       - "CMakeLists.txt:5 (project)"
     message: |
       Running the CXX compiler's linker: "P:/msys64/ucrt64/x86_64-w64-mingw32/bin/ld.exe" "-v"
       GNU ld (GNU Binutils) 2.44
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CheckIPOSupported.cmake:138 (try_compile)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CheckIPOSupported.cmake:261 (_ipo_run_language_check)"
+      - "CMakeLists.txt:51 (check_ipo_supported)"
+    directories:
+      source: "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/src"
+      binary: "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin"
+    buildResult:
+      variable: "_IPO_LANGUAGE_CHECK_RESULT"
+      cached: true
+      stdout: |
+        Change Dir: 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        
+        Run Build Command(s): "D:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 P:/msys64/ucrt64/bin/mingw32-make.exe -f Makefile
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -SP:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\src -BP:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin --check-build-system CMakeFiles\\Makefile.cmake 0
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_progress_start P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\CMakeFiles P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\\\CMakeFiles\\progress.marks
+        P:/msys64/ucrt64/bin/mingw32-make.exe  -f CMakeFiles\\Makefile2 all
+        mingw32-make[1]: Entering directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        P:/msys64/ucrt64/bin/mingw32-make.exe  -f CMakeFiles\\foo.dir\\build.make CMakeFiles/foo.dir/depend
+        mingw32-make[2]: Entering directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_depends "MinGW Makefiles" P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\src P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\src P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\CMakeFiles\\foo.dir\\DependInfo.cmake
+        Dependee "P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\CMakeFiles\\foo.dir\\DependInfo.cmake" is newer than depender "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/foo.dir/depend.internal".
+        Dependee "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/foo.dir/depend.internal".
+        Scanning dependencies of target foo
+        mingw32-make[2]: Leaving directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        P:/msys64/ucrt64/bin/mingw32-make.exe  -f CMakeFiles\\foo.dir\\build.make CMakeFiles/foo.dir/build
+        mingw32-make[2]: Entering directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        [ 25%] Building CXX object CMakeFiles/foo.dir/foo.cpp.obj
+        P:\\msys64\\ucrt64\\bin\\g++.exe   -flto=auto -fno-fat-lto-objects -o CMakeFiles\\foo.dir\\foo.cpp.obj -c P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\foo.cpp
+        [ 50%] Linking CXX static library libfoo.a
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -P CMakeFiles\\foo.dir\\cmake_clean_target.cmake
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\foo.dir\\link.txt --verbose=1
+        "P:/msys64/ucrt64/bin/gcc-ar.exe" qc libfoo.a CMakeFiles/foo.dir/foo.cpp.obj
+        "P:/msys64/ucrt64/bin/gcc-ranlib.exe" libfoo.a
+        mingw32-make[2]: Leaving directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        [ 50%] Built target foo
+        P:/msys64/ucrt64/bin/mingw32-make.exe  -f CMakeFiles\\boo.dir\\build.make CMakeFiles/boo.dir/depend
+        mingw32-make[2]: Entering directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_depends "MinGW Makefiles" P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\src P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\src P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\CMakeFiles\\boo.dir\\DependInfo.cmake
+        Dependee "P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\CMakeFiles\\boo.dir\\DependInfo.cmake" is newer than depender "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/boo.dir/depend.internal".
+        Dependee "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/boo.dir/depend.internal".
+        Scanning dependencies of target boo
+        mingw32-make[2]: Leaving directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        P:/msys64/ucrt64/bin/mingw32-make.exe  -f CMakeFiles\\boo.dir\\build.make CMakeFiles/boo.dir/build
+        mingw32-make[2]: Entering directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        [ 75%] Building CXX object CMakeFiles/boo.dir/main.cpp.obj
+        P:\\msys64\\ucrt64\\bin\\g++.exe   -flto=auto -fno-fat-lto-objects -o CMakeFiles\\boo.dir\\main.cpp.obj -c P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\main.cpp
+        [100%] Linking CXX executable boo.exe
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\boo.dir\\link.txt --verbose=1
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\boo.dir/objects.a
+        P:\\msys64\\ucrt64\\bin\\ar.exe qc CMakeFiles\\boo.dir/objects.a @CMakeFiles\\boo.dir\\objects1.rsp
+        P:\\msys64\\ucrt64\\bin\\g++.exe -flto=auto -fno-fat-lto-objects -Wl,--whole-archive CMakeFiles\\boo.dir/objects.a -Wl,--no-whole-archive -o boo.exe -Wl,--out-implib,libboo.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\\boo.dir\\linkLibs.rsp
+        mingw32-make[2]: Leaving directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        [100%] Built target boo
+        mingw32-make[1]: Leaving directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_progress_start P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\CMakeFiles 0
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CheckIPOSupported.cmake:138 (try_compile)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CheckIPOSupported.cmake:261 (_ipo_run_language_check)"
+      - "CMakeLists.txt:51 (check_ipo_supported)"
+    directories:
+      source: "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/src"
+      binary: "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin"
+    buildResult:
+      variable: "_IPO_LANGUAGE_CHECK_RESULT"
+      cached: true
+      stdout: |
+        Change Dir: 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        
+        Run Build Command(s): "D:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 P:/msys64/ucrt64/bin/mingw32-make.exe -f Makefile
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -SP:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\src -BP:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin --check-build-system CMakeFiles\\Makefile.cmake 0
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_progress_start P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\CMakeFiles P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\\\CMakeFiles\\progress.marks
+        P:/msys64/ucrt64/bin/mingw32-make.exe  -f CMakeFiles\\Makefile2 all
+        mingw32-make[1]: Entering directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        P:/msys64/ucrt64/bin/mingw32-make.exe  -f CMakeFiles\\foo.dir\\build.make CMakeFiles/foo.dir/depend
+        mingw32-make[2]: Entering directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_depends "MinGW Makefiles" P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\src P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\src P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\CMakeFiles\\foo.dir\\DependInfo.cmake
+        Dependee "P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\CMakeFiles\\foo.dir\\DependInfo.cmake" is newer than depender "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/foo.dir/depend.internal".
+        Dependee "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/foo.dir/depend.internal".
+        Scanning dependencies of target foo
+        mingw32-make[2]: Leaving directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        P:/msys64/ucrt64/bin/mingw32-make.exe  -f CMakeFiles\\foo.dir\\build.make CMakeFiles/foo.dir/build
+        mingw32-make[2]: Entering directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        [ 25%] Building CXX object CMakeFiles/foo.dir/foo.cpp.obj
+        P:\\msys64\\ucrt64\\bin\\g++.exe   -flto=auto -fno-fat-lto-objects -o CMakeFiles\\foo.dir\\foo.cpp.obj -c P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\foo.cpp
+        [ 50%] Linking CXX static library libfoo.a
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -P CMakeFiles\\foo.dir\\cmake_clean_target.cmake
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\foo.dir\\link.txt --verbose=1
+        "P:/msys64/ucrt64/bin/gcc-ar.exe" qc libfoo.a CMakeFiles/foo.dir/foo.cpp.obj
+        "P:/msys64/ucrt64/bin/gcc-ranlib.exe" libfoo.a
+        mingw32-make[2]: Leaving directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        [ 50%] Built target foo
+        P:/msys64/ucrt64/bin/mingw32-make.exe  -f CMakeFiles\\boo.dir\\build.make CMakeFiles/boo.dir/depend
+        mingw32-make[2]: Entering directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_depends "MinGW Makefiles" P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\src P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\src P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\CMakeFiles\\boo.dir\\DependInfo.cmake
+        Dependee "P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\CMakeFiles\\boo.dir\\DependInfo.cmake" is newer than depender "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/boo.dir/depend.internal".
+        Dependee "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/boo.dir/depend.internal".
+        Scanning dependencies of target boo
+        mingw32-make[2]: Leaving directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        P:/msys64/ucrt64/bin/mingw32-make.exe  -f CMakeFiles\\boo.dir\\build.make CMakeFiles/boo.dir/build
+        mingw32-make[2]: Entering directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        [ 75%] Building CXX object CMakeFiles/boo.dir/main.cpp.obj
+        P:\\msys64\\ucrt64\\bin\\g++.exe   -flto=auto -fno-fat-lto-objects -o CMakeFiles\\boo.dir\\main.cpp.obj -c P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\main.cpp
+        [100%] Linking CXX executable boo.exe
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\boo.dir\\link.txt --verbose=1
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\boo.dir/objects.a
+        P:\\msys64\\ucrt64\\bin\\ar.exe qc CMakeFiles\\boo.dir/objects.a @CMakeFiles\\boo.dir\\objects1.rsp
+        P:\\msys64\\ucrt64\\bin\\g++.exe -flto=auto -fno-fat-lto-objects -Wl,--whole-archive CMakeFiles\\boo.dir/objects.a -Wl,--no-whole-archive -o boo.exe -Wl,--out-implib,libboo.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\\boo.dir\\linkLibs.rsp
+        mingw32-make[2]: Leaving directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        [100%] Built target boo
+        mingw32-make[1]: Leaving directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_progress_start P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\CMakeFiles 0
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CheckIPOSupported.cmake:138 (try_compile)"
+      - "D:/Program Files/CMake/share/cmake-3.31/Modules/CheckIPOSupported.cmake:261 (_ipo_run_language_check)"
+      - "CMakeLists.txt:50 (check_ipo_supported)"
+    directories:
+      source: "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/src"
+      binary: "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin"
+    buildResult:
+      variable: "_IPO_LANGUAGE_CHECK_RESULT"
+      cached: true
+      stdout: |
+        Change Dir: 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        
+        Run Build Command(s): "D:/Program Files/CMake/bin/cmake.exe" -E env VERBOSE=1 P:/msys64/ucrt64/bin/mingw32-make.exe -f Makefile
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -SP:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\src -BP:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin --check-build-system CMakeFiles\\Makefile.cmake 0
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_progress_start P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\CMakeFiles P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\\\CMakeFiles\\progress.marks
+        P:/msys64/ucrt64/bin/mingw32-make.exe  -f CMakeFiles\\Makefile2 all
+        mingw32-make[1]: Entering directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        P:/msys64/ucrt64/bin/mingw32-make.exe  -f CMakeFiles\\foo.dir\\build.make CMakeFiles/foo.dir/depend
+        mingw32-make[2]: Entering directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_depends "MinGW Makefiles" P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\src P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\src P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\CMakeFiles\\foo.dir\\DependInfo.cmake
+        Dependee "P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\CMakeFiles\\foo.dir\\DependInfo.cmake" is newer than depender "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/foo.dir/depend.internal".
+        Dependee "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/foo.dir/depend.internal".
+        Scanning dependencies of target foo
+        mingw32-make[2]: Leaving directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        P:/msys64/ucrt64/bin/mingw32-make.exe  -f CMakeFiles\\foo.dir\\build.make CMakeFiles/foo.dir/build
+        mingw32-make[2]: Entering directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        [ 25%] Building CXX object CMakeFiles/foo.dir/foo.cpp.obj
+        P:\\msys64\\ucrt64\\bin\\g++.exe   -flto=auto -fno-fat-lto-objects -o CMakeFiles\\foo.dir\\foo.cpp.obj -c P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\foo.cpp
+        [ 50%] Linking CXX static library libfoo.a
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -P CMakeFiles\\foo.dir\\cmake_clean_target.cmake
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\foo.dir\\link.txt --verbose=1
+        "P:/msys64/ucrt64/bin/gcc-ar.exe" qc libfoo.a CMakeFiles/foo.dir/foo.cpp.obj
+        "P:/msys64/ucrt64/bin/gcc-ranlib.exe" libfoo.a
+        mingw32-make[2]: Leaving directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        [ 50%] Built target foo
+        P:/msys64/ucrt64/bin/mingw32-make.exe  -f CMakeFiles\\boo.dir\\build.make CMakeFiles/boo.dir/depend
+        mingw32-make[2]: Entering directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_depends "MinGW Makefiles" P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\src P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\src P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\CMakeFiles\\boo.dir\\DependInfo.cmake
+        Dependee "P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\CMakeFiles\\boo.dir\\DependInfo.cmake" is newer than depender "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/boo.dir/depend.internal".
+        Dependee "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/CMakeDirectoryInformation.cmake" is newer than depender "P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/boo.dir/depend.internal".
+        Scanning dependencies of target boo
+        mingw32-make[2]: Leaving directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        P:/msys64/ucrt64/bin/mingw32-make.exe  -f CMakeFiles\\boo.dir\\build.make CMakeFiles/boo.dir/build
+        mingw32-make[2]: Entering directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        [ 75%] Building CXX object CMakeFiles/boo.dir/main.cpp.obj
+        P:\\msys64\\ucrt64\\bin\\g++.exe   -flto=auto -fno-fat-lto-objects -o CMakeFiles\\boo.dir\\main.cpp.obj -c P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\main.cpp
+        [100%] Linking CXX executable boo.exe
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_link_script CMakeFiles\\boo.dir\\link.txt --verbose=1
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -E rm -f CMakeFiles\\boo.dir/objects.a
+        P:\\msys64\\ucrt64\\bin\\ar.exe qc CMakeFiles\\boo.dir/objects.a @CMakeFiles\\boo.dir\\objects1.rsp
+        P:\\msys64\\ucrt64\\bin\\g++.exe -flto=auto -fno-fat-lto-objects -Wl,--whole-archive CMakeFiles\\boo.dir/objects.a -Wl,--no-whole-archive -o boo.exe -Wl,--out-implib,libboo.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\\boo.dir\\linkLibs.rsp
+        mingw32-make[2]: Leaving directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        [100%] Built target boo
+        mingw32-make[1]: Leaving directory 'P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        "D:\\Program Files\\CMake\\bin\\cmake.exe" -E cmake_progress_start P:\\HCMUS\\3rdYear_3rdSemester\\MMT\\FTPClient\\build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\CMakeFiles 0
+        
+      exitCode: 0
 ...

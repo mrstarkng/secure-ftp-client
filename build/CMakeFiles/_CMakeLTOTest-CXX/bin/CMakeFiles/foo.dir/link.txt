@@ -1,0 +1,2 @@
+"P:/msys64/ucrt64/bin/gcc-ar.exe" qc libfoo.a CMakeFiles/foo.dir/foo.cpp.obj
+"P:/msys64/ucrt64/bin/gcc-ranlib.exe" libfoo.a

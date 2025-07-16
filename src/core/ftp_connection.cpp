@@ -24,7 +24,6 @@ FtpController::~FtpController() {
 // Private Helper Functions
 // =================================================================
 
-// Gửi một lệnh đến server và in ra log
 void FtpController::sendCommand(const std::string& cmd) {
     if (!isConnected()) {
         throw FtpException("Cannot send command: Not connected.");
@@ -36,7 +35,7 @@ void FtpController::sendCommand(const std::string& cmd) {
     }
 }
 
-// Đọc phản hồi từ server một cách thông minh, sử dụng bộ đệm
+// Hàm readReply thông minh với bộ đệm - ĐÂY LÀ PHẦN SỬA LỖI QUAN TRỌNG NHẤT
 std::string FtpController::readReply() {
     if (!isConnected()) {
         throw FtpException("Cannot read reply: Not connected.");
@@ -58,8 +57,7 @@ std::string FtpController::readReply() {
             }
             // Thêm dữ liệu mới vào bộ đệm
             control_buffer.append(buffer, bytes_received);
-            // Quay lại vòng lặp để tìm \r\n một lần nữa
-            continue;
+            continue; // Quay lại vòng lặp để tìm \r\n một lần nữa
         }
 
         // Nếu đã tìm thấy một dòng hoàn chỉnh
@@ -67,23 +65,17 @@ std::string FtpController::readReply() {
         // Xóa dòng vừa xử lý và ký tự \r\n khỏi bộ đệm
         control_buffer.erase(0, crlf_pos + 2);
 
-        // Thêm dòng này vào phản hồi hoàn chỉnh mà chúng ta sẽ trả về
         full_reply_message += line + "\r\n";
 
         // Kiểm tra xem đây có phải là dòng cuối cùng của một phản hồi FTP không
         // Dòng cuối có dạng: "XXX message" (3 chữ số, 1 dấu cách)
         if (line.length() >= 4 && isdigit(line[0]) && isdigit(line[1]) && isdigit(line[2]) && line[3] == ' ') {
-            // In ra log để debug
             std::cout << "SERVER < " << full_reply_message;
-            // Trả về phản hồi hoàn chỉnh
             return full_reply_message;
         }
-        // Nếu không phải dòng cuối (ví dụ: "XXX-message"), vòng lặp sẽ tiếp tục
-        // để đọc các dòng tiếp theo của phản hồi nhiều dòng.
     }
 }
 
-// Tạo kết nối dữ liệu ở chế độ Passive
 SOCKET FtpController::createDataConnection() {
     if (!is_passive_mode) {
         throw FtpException("Active mode is not supported in this version.");
@@ -154,42 +146,33 @@ bool FtpController::connect(const std::string& host, int port) {
     if (isConnected()) {
         disconnect();
     }
-
     std::cout << "DEBUG: Attempting to connect to " << host << ":" << port << std::endl;
-
     addrinfo hints = {}, *res = nullptr;
     hints.ai_family = AF_INET;
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_protocol = IPPROTO_TCP;
-
     if (getaddrinfo(host.c_str(), std::to_string(port).c_str(), &hints, &res) != 0) {
         throw FtpException("getaddrinfo failed for host: " + host);
     }
-
     control_socket = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
     if (control_socket == INVALID_SOCKET) {
         freeaddrinfo(res);
         throw FtpException("Failed to create control socket.");
     }
-
     if (::connect(control_socket, res->ai_addr, (int)res->ai_addrlen) == SOCKET_ERROR) {
         closesocket(control_socket);
         control_socket = INVALID_SOCKET;
         freeaddrinfo(res);
         throw FtpException("Failed to connect to server. Check host or firewall.");
     }
-
     freeaddrinfo(res);
     std::cout << "DEBUG: TCP connection established." << std::endl;
-
-    // Xóa bộ đệm cũ trước khi đọc welcome message
     control_buffer.clear();
     std::string welcome_msg = readReply();
     if (welcome_msg.rfind("220", 0) != 0) {
         disconnect();
         return false;
     }
-
     this->current_host = host;
     return true;
 }
@@ -198,10 +181,8 @@ bool FtpController::login(const std::string& user, const std::string& pass) {
     sendCommand("USER " + user);
     std::string user_reply = readReply();
     if (user_reply.rfind("331", 0) != 0) {
-        std::cout << "DEBUG: Server did not ask for password. Login failed." << std::endl;
         return false;
     }
-
     sendCommand("PASS " + pass);
     std::string pass_reply = readReply();
     if (pass_reply.rfind("230", 0) == 0) {
@@ -209,8 +190,6 @@ bool FtpController::login(const std::string& user, const std::string& pass) {
         setTransferMode(TransferMode::BINARY);
         return true;
     }
-    
-    std::cout << "DEBUG: Invalid password or login failed." << std::endl;
     return false;
 }
 
@@ -219,14 +198,14 @@ void FtpController::disconnect() {
         try {
             sendCommand("QUIT");
             readReply();
-        } catch (const FtpException& e) {
-            std::cerr << "Note: " << e.what() << " while quitting." << std::endl;
+        } catch (const FtpException&) {
+            // Ignore errors on quit
         }
         closesocket(control_socket);
         control_socket = INVALID_SOCKET;
         current_host.clear();
         current_user.clear();
-        control_buffer.clear(); // Dọn dẹp bộ đệm khi ngắt kết nối
+        control_buffer.clear();
     }
 }
 
@@ -236,11 +215,7 @@ bool FtpController::isConnected() const {
 
 void FtpController::setTransferMode(TransferMode mode) {
     if (!isConnected()) throw FtpException("Not connected.");
-    if (mode == TransferMode::ASCII) {
-        sendCommand("TYPE A");
-    } else {
-        sendCommand("TYPE I");
-    }
+    sendCommand(mode == TransferMode::ASCII ? "TYPE A" : "TYPE I");
     readReply();
     this->current_mode = mode;
 }
@@ -254,7 +229,8 @@ std::string FtpController::getStatus() {
         return "Not connected.";
     }
     std::string status = "Connected to " + current_host + " as " + current_user + ".\n";
-    status += "Mode: " + (current_mode == TransferMode::BINARY ? std::string("Binary") : std::string("ASCII")) + ", ";
-    status += "Passive: " + (is_passive_mode ? std::string("On") : std::string("Off")) + ".";
+    // --- SỬA LỖI CỘNG CHUỖI Ở ĐÂY ---
+    status += std::string("Mode: ") + (current_mode == TransferMode::BINARY ? "Binary" : "ASCII") + ", ";
+    status += std::string("Passive: ") + (is_passive_mode ? "On" : "Off") + ".";
     return status;
 }

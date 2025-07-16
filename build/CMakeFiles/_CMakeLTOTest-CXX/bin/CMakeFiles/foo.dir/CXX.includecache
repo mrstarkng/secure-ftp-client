@@ -1,0 +1,10 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/_CMakeLTOTest-CXX/src/foo.cpp
+
