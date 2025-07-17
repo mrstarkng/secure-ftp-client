@@ -23,6 +23,9 @@ from session_manager import SessionManager
 from connection_pool import ConnectionPool, TransferJob, TransferType
 from transfer_queue_widget import TransferQueueWidget
 
+# Import async virus scanner
+from virus_scanner import get_virus_scanner
+
 # --- Custom Widgets ---
 class DragDropTreeView(QTreeView):
     def __init__(self, parent=None):
@@ -606,9 +609,9 @@ class RemoteTreeView(QTreeView):
                     if item_name != "..":
                         item_type = item.data(Qt.ItemDataRole.UserRole)
                         if item_type == "Directory":
-                            self.parent_widget.execute_command(f"rmdir {shlex.quote(item_name)}")
+                            self.parent_widget.execute_command(f"rmdir \"{item_name}\"")
                         else:
-                            self.parent_widget.execute_command(f"delete {shlex.quote(item_name)}")
+                            self.parent_widget.execute_command(f"delete \"{item_name}\"")
             
     def delete_remote_item(self, index):
         if self.model():
@@ -626,9 +629,9 @@ class RemoteTreeView(QTreeView):
                     
                     if result == QMessageBox.StandardButton.Yes:
                         # This command will now trigger the recursive rmdir implementation in the C++ backend
-                        self.parent_widget.execute_command(f"rmdir {shlex.quote(item_name)}")
+                        self.parent_widget.execute_command(f"rmdir \"{item_name}\"")
                 else:
-                    self.parent_widget.execute_command(f"delete {shlex.quote(item_name)}")
+                    self.parent_widget.execute_command(f"delete \"{item_name}\"")
             
     def rename_item(self, index):
         if self.model():
@@ -640,7 +643,7 @@ class RemoteTreeView(QTreeView):
             )
             if ok and new_name and new_name != item_name:
                 if self.parent_widget:
-                    self.parent_widget.execute_command(f"rename {shlex.quote(item_name)} {shlex.quote(new_name)}")
+                    self.parent_widget.execute_command(f"rename \"{item_name}\" \"{new_name}\"")
 
 # --- Main Application Window ---
 class GuiWidget(QMainWindow):
@@ -676,6 +679,13 @@ class GuiWidget(QMainWindow):
 
         self.status_bar = QStatusBar()
         self.setStatusBar(self.status_bar)
+        
+        # Add ClamAV status to status bar
+        clamav_status = self.session.get_clamav_status()
+        self.clamav_label = QLabel(clamav_status)
+        self.clamav_label.setStyleSheet("color: #007ACC; font-weight: bold; padding: 2px 8px;")
+        self.status_bar.addPermanentWidget(self.clamav_label)
+        
         self.status_bar.showMessage("Ready. Enter connection details or paste a full FTP URL.")
 
         # --- Signal/Slot Connections ---
@@ -684,11 +694,25 @@ class GuiWidget(QMainWindow):
         # Connect transfer queue to connection pool AFTER both are created
         self.transfer_queue_widget.set_connection_pool(self.connection_pool)
         
+        # Initialize async virus scanner
+        self.virus_scanner = get_virus_scanner(max_concurrent_scans=5)  # Match parallel upload capacity
+        self.virus_scanner.scan_failed.connect(self.on_scan_failed)
+        
+        # Add virus scanner status to status bar
+        self.scanner_status_label = QLabel("Scanner: Ready")
+        self.scanner_status_label.setStyleSheet("color: #28a745; font-weight: bold; padding: 2px 8px;")
+        self.status_bar.addPermanentWidget(self.scanner_status_label)
+        
+        # Timer for updating scanner status
+        self.scanner_status_timer = QTimer(self)
+        self.scanner_status_timer.timeout.connect(self.update_scanner_status)
+        self.scanner_status_timer.start(1000)  # Update every second
+        
         # Timer for updating the timestamp
         self.timestamp_timer = QTimer(self)
-        self.timestamp_timer.timeout.connect(self.update_timestamp)
+        self.timestamp_timer.timeout.connect(self.update_label)
         self.timestamp_timer.start(60000)  # Update every minute
-        self.update_timestamp()  # Initial update
+        self.update_label()  # Initial update
 
     def setup_central_widget(self):
         # Create main tab widget
@@ -947,10 +971,26 @@ class GuiWidget(QMainWindow):
         transfer_dock.setWidget(transfer_widget)
         self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, transfer_dock)
 
-    def update_timestamp(self):
-        """Update the timestamp in the status panel"""
-        current_time = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%S")
-        self.timestamp_label.setText(f"Last Update: {current_time} UTC | User: Kostovite")
+    def update_label(self):
+        """Show label in the panel"""
+        self.timestamp_label.setText(f"HCMUS - FIT")
+
+    def update_scanner_status(self):
+        """Update virus scanner status in status bar"""
+        try:
+            stats = self.virus_scanner.get_stats()
+            queue_size = stats['queue_size']
+            active_threads = stats['active_threads']
+            
+            if queue_size > 0 or active_threads > 0:
+                self.scanner_status_label.setText(f"Scanner: {active_threads} active, {queue_size} queued")
+                self.scanner_status_label.setStyleSheet("color: #ffc107; font-weight: bold; padding: 2px 8px;")
+            else:
+                self.scanner_status_label.setText("Scanner: Ready")
+                self.scanner_status_label.setStyleSheet("color: #28a745; font-weight: bold; padding: 2px 8px;")
+        except Exception as e:
+            self.scanner_status_label.setText("Scanner: Error")
+            self.scanner_status_label.setStyleSheet("color: #dc3545; font-weight: bold; padding: 2px 8px;")
 
     def go_up_local_directory(self):
         """Navigate up one directory in local view"""
@@ -976,6 +1016,12 @@ class GuiWidget(QMainWindow):
         self.status_button.clicked.connect(self.on_status_clicked)
         self.session.output_received.connect(self.handle_server_output)
         self.session.task_finished.connect(self.on_task_finished)
+        self.session.scan_failed.connect(self.on_scan_failed)  # Connect virus scan signal
+        
+        # Connect session state signals
+        self.session.connected.connect(self.on_connected)
+        self.session.disconnected.connect(self.on_disconnected)
+        
         self.local_tree.set_parent_widget(self)
         self.remote_list.set_parent_widget(self)
 
@@ -1044,6 +1090,16 @@ class GuiWidget(QMainWindow):
 
     def upload_file_via_parallel_system(self, local_path: str, remote_path: str):
         """Upload a single file using the parallel transfer system"""
+        # Check if we're connected to a server
+        if not hasattr(self.session, 'client') or not self.session.client:
+            QMessageBox.warning(
+                self,
+                "Not Connected", 
+                "You must connect to an FTP server before uploading files."
+            )
+            self.status_bar.showMessage("Upload failed: Not connected to server", 3000)
+            return
+            
         # Ensure the path is properly encoded and normalized
         try:
             # Strip quotes from the path first
@@ -1052,10 +1108,6 @@ class GuiWidget(QMainWindow):
             # Normalize the path to handle Unicode characters properly
             local_path = os.path.normpath(local_path)
             
-            # Debug: Print the actual path being processed
-            print(f"DEBUG: Processing upload for path: {repr(local_path)}")
-            self.server_log.append(f"DEBUG: Processing upload for path: {repr(local_path)}")
-            
             # Check if file exists with proper encoding
             if not os.path.exists(local_path):
                 error_msg = f"ERROR: Local file not found: {repr(local_path)}"
@@ -1063,6 +1115,50 @@ class GuiWidget(QMainWindow):
                 self.server_log.append(error_msg)
                 self.status_bar.showMessage("Upload failed: File not found", 3000)
                 return
+
+            # Scan file with ClamAV before upload (asynchronously)
+            self.server_log.append(f"ClamAV: Starting async scan for {local_path}")
+            self.status_bar.showMessage(f"Scanning {os.path.basename(local_path)} for viruses...", 3000)
+            
+            # Define callback for when scan completes
+            def on_scan_complete(file_path: str, scan_result: str):
+                # This runs on the main thread
+                try:
+                    if scan_result.startswith("INFECTED:"):
+                        virus_name = scan_result.split(":", 1)[1].strip()
+                        reason = f"File is infected with: {virus_name}. Upload cancelled."
+                        self.on_scan_failed(file_path, reason)
+                        return
+                    elif scan_result != "OK":
+                        reason = f"Antivirus scan failed: {scan_result}. Upload cancelled for safety."
+                        self.on_scan_failed(file_path, reason)
+                        return
+                    else:
+                        self.server_log.append(f"ClamAV: File {file_path} is clean - proceeding with parallel upload")
+                        # Continue with upload after successful scan
+                        self._continue_upload_after_scan(file_path, remote_path)
+                except Exception as e:
+                    reason = f"Failed to process scan result: {str(e)}. Upload cancelled for safety."
+                    self.on_scan_failed(file_path, reason)
+            
+            # Start async scan
+            job_id = self.virus_scanner.scan_file_async(local_path, on_scan_complete)
+            self.server_log.append(f"ClamAV: Queued scan job {job_id} for {local_path}")
+            
+            # Don't continue with upload here - it will continue in the callback
+            return
+            
+        except Exception as e:
+            error_msg = f"ERROR: Exception in upload_file_via_parallel_system: {e}"
+            print(error_msg)
+            self.server_log.append(error_msg)
+            self.status_bar.showMessage("Upload failed: Unexpected error", 3000)
+
+    def _continue_upload_after_scan(self, local_path: str, remote_path: str):
+        """Continue with upload after successful virus scan"""
+        try:
+            # Strip quotes from remote path to prevent quoted filenames on server
+            remote_path = remote_path.strip('\'"')
             
             # Get file size safely
             try:
@@ -1361,6 +1457,40 @@ class GuiWidget(QMainWindow):
                 
         self.status_bar.showMessage("Remote file list updated.", 2000)
 
+    def on_scan_failed(self, file_path, reason):
+        """Shows a warning dialog when a virus scan fails or detects infection"""
+        QMessageBox.critical(
+            self,
+            "🦠 Upload Blocked - Virus Detected",
+            f"<b>Security Alert:</b> Upload has been blocked for your protection.\n\n"
+            f"<b>File:</b> {file_path}\n\n"
+            f"<b>Reason:</b> {reason}\n\n"
+            f"Please scan your system with updated antivirus software and "
+            f"remove any infected files before attempting to upload again."
+        )
+        
+        # Also log to server log for record keeping
+        self.server_log.append(f"🦠 SECURITY ALERT: {reason}")
+
+    def on_connected(self):
+        """Called when successfully connected to FTP server"""
+        self.status_bar.showMessage("Connected to FTP server")
+        self._update_ui_for_connection_status(connected=True)
+
+    def on_disconnected(self):
+        """Called when disconnected from FTP server"""
+        self.status_bar.showMessage("Disconnected from FTP server")
+        self._update_ui_for_connection_status(connected=False)
+        
+    def _update_ui_for_connection_status(self, connected: bool):
+        """Enable/disable UI elements based on connection status"""
+        # Enable/disable upload controls based on connection status
+        self.local_tree.setEnabled(connected)
+        
+        # Find upload-related buttons and disable them when disconnected
+        # The drag-and-drop upload will be handled in the upload logic itself
+        self.status_bar.showMessage("Upload blocked - virus detected!", 5000)
+
     def upload_file(self, local_path, remote_path=None, preserve_structure=False):
         """
         Uploads a file or directory to the remote server.
@@ -1370,6 +1500,16 @@ class GuiWidget(QMainWindow):
             remote_path: Optional target path on the remote server
             preserve_structure: If True, creates necessary directory structure on server
         """
+        # Check if we're connected to a server
+        if not hasattr(self.session, 'client') or not self.session.client:
+            QMessageBox.warning(
+                self,
+                "Not Connected", 
+                "You must connect to an FTP server before uploading files."
+            )
+            self.status_bar.showMessage("Upload failed: Not connected to server", 3000)
+            return
+            
         is_directory = os.path.isdir(local_path)
         
         # Extract the filename/dirname from the path, discarding absolute path
@@ -1378,12 +1518,15 @@ class GuiWidget(QMainWindow):
         # If parallel transfers are enabled, use the parallel system
         if self.parallel_enabled_checkbox.isChecked() and self.connection_pool:
             target_remote_path = remote_path if remote_path else basename
+            # Strip quotes from remote path
+            target_remote_path = target_remote_path.strip('\'"')
+            
             if is_directory:
                 # For directories, we need to handle them differently
                 # Create the directory first, then upload contents
-                self.execute_command(f"mkdir {shlex.quote(basename)}")
+                self.execute_command(f"mkdir \"{basename}\"")
                 # Change to the directory
-                self.execute_command(f"cd {shlex.quote(basename)}")
+                self.execute_command(f"cd \"{basename}\"")
                 # Upload contents using the parallel system
                 for item in os.listdir(local_path):
                     item_path = os.path.join(local_path, item)
@@ -1399,13 +1542,13 @@ class GuiWidget(QMainWindow):
         # Traditional command-based upload for non-parallel mode
         if preserve_structure and is_directory:
             # Create the directory on the server using just the basename
-            self.execute_command(f"mkdir {shlex.quote(basename)}")
+            self.execute_command(f"mkdir \"{basename}\"")
             
             # Change into that directory
-            self.execute_command(f"cd {shlex.quote(basename)}")
+            self.execute_command(f"cd \"{basename}\"")
             
             # Upload the contents using mput
-            self.execute_command(f"mput {shlex.quote(local_path)}")
+            self.execute_command(f"mput \"{local_path}\"")
             
             # Go back to the parent directory
             self.execute_command("cd ..")
@@ -1413,17 +1556,17 @@ class GuiWidget(QMainWindow):
             # Standard upload without preserving structure
             if is_directory:
                 # For directories, we need to create the directory first
-                self.execute_command(f"mkdir {shlex.quote(basename)}")
+                self.execute_command(f"mkdir \"{basename}\"")
                 
                 # Then upload the contents
-                self.execute_command(f"mput {shlex.quote(local_path)}")
+                self.execute_command(f"mput \"{local_path}\"")
             else:
                 # For files, just use put with the source path and optional target name
                 if remote_path:
-                    self.execute_command(f"put {shlex.quote(local_path)} {shlex.quote(remote_path)}")
+                    self.execute_command(f"put \"{local_path}\" \"{remote_path}\"")
                 else:
                     # Use just the basename for the target to avoid path issues
-                    self.execute_command(f"put {shlex.quote(local_path)} {shlex.quote(basename)}")
+                    self.execute_command(f"put \"{local_path}\" \"{basename}\"")
 
     def download_file(self, remote_filename, local_path=None):
         """Download a file from remote to local with proper path handling and debugging"""
@@ -1473,7 +1616,7 @@ class GuiWidget(QMainWindow):
             self.download_file_via_parallel_system(remote_filename, local_file_path)
         else:
             # Use traditional command-based download
-            command = f"get {shlex.quote(remote_filename)} {shlex.quote(local_file_path)}"
+            command = f"get \"{remote_filename}\" \"{local_file_path}\""
             self.execute_command(command)
             
             self.status_bar.showMessage(f"Downloading {remote_filename} to {local_file_path}...", 3000)
@@ -1503,7 +1646,7 @@ class GuiWidget(QMainWindow):
         if not path: return
         
         # Execute the cd command
-        self.execute_command(f"cd {shlex.quote(path)}")
+        self.execute_command(f"cd \"{path}\"")
 
     def parse_and_connect_ftp_url(self, url_text):
         try:
@@ -1523,7 +1666,7 @@ class GuiWidget(QMainWindow):
             self.on_connect_clicked()
             
             if path and path != "/":
-                self.execute_command(f"cd {shlex.quote(path)}")
+                self.execute_command(f"cd \"{path}\"")
         except Exception as e:
             QMessageBox.warning(self, "URL Parse Error", f"Failed to parse FTP URL: {str(e)}")
 
@@ -1626,13 +1769,13 @@ class GuiWidget(QMainWindow):
         # If we want to preserve the folder structure (when dropping directly)
         if preserve_structure and is_directory:
             # Create the directory on the server using just the basename
-            self.execute_command(f"mkdir {shlex.quote(basename)}")
+            self.execute_command(f"mkdir \"{basename}\"")
             
             # Change into that directory
-            self.execute_command(f"cd {shlex.quote(basename)}")
+            self.execute_command(f"cd \"{basename}\"")
             
             # Upload the contents using mput
-            self.execute_command(f"mput {shlex.quote(local_path)}")
+            self.execute_command(f"mput \"{local_path}\"")
             
             # Go back to the parent directory
             self.execute_command("cd ..")
@@ -1640,17 +1783,17 @@ class GuiWidget(QMainWindow):
             # Standard upload without preserving structure
             if is_directory:
                 # For directories, we need to create the directory first
-                self.execute_command(f"mkdir {shlex.quote(basename)}")
+                self.execute_command(f"mkdir \"{basename}\"")
                 
                 # Then upload the contents
-                self.execute_command(f"mput {shlex.quote(local_path)}")
+                self.execute_command(f"mput \"{local_path}\"")
             else:
                 # For files, just use put with the source path and optional target name
                 if remote_path:
-                    self.execute_command(f"put {shlex.quote(local_path)} {shlex.quote(remote_path)}")
+                    self.execute_command(f"put \"{local_path}\" \"{remote_path}\"")
                 else:
                     # Use just the basename for the target to avoid path issues
-                    self.execute_command(f"put {shlex.quote(local_path)} {shlex.quote(basename)}")
+                    self.execute_command(f"put \"{local_path}\" \"{basename}\"")
                     
     def upload_directory_parallel(self, local_dir_path, remote_base_path=None, preserve_structure=False):
         """Upload directory contents using parallel transfers"""

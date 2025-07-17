@@ -4,10 +4,14 @@ import shlex
 import queue
 import threading
 from PyQt6.QtCore import QObject, pyqtSignal
+from clamav_installer import get_clamav_path
 
 class SessionManager(QObject):
     output_received = pyqtSignal(str)
     task_finished = pyqtSignal(bool, str)
+    scan_failed = pyqtSignal(str, str)  # Signal for scan failure (file_path, reason)
+    connected = pyqtSignal()  # Signal when connection is established
+    disconnected = pyqtSignal()  # Signal when connection is lost
 
     def __init__(self):
         super().__init__()
@@ -35,6 +39,19 @@ class SessionManager(QObject):
             self.client.close()
         except Exception:
             pass
+        # Emit disconnected signal
+        self.disconnected.emit()
+    
+    def get_clamav_status(self):
+        """Get ClamAV status for display"""
+        clamav_path = get_clamav_path()
+        if clamav_path:
+            if "ClamAV" in clamav_path:
+                return "ClamAV: Portable installation active"
+            else:
+                return "ClamAV: System installation active"
+        else:
+            return "ClamAV: Not available (uploads will not be scanned)"
 
     def _command_loop(self):
         """The main loop for the worker thread, executing commands one by one."""
@@ -70,6 +87,12 @@ class SessionManager(QObject):
                 else:
                     result = self.command_map[command_name](args)
                 
+                # Check for connection status changes
+                if command_name == "open" and result and "Successfully connected" in result:
+                    self.connected.emit()
+                elif command_name in ["close", "quit", "bye"]:
+                    self.disconnected.emit()
+                
                 if result:
                     self.output_received.emit(result)
                 if command_name in ["quit", "bye"]:
@@ -81,8 +104,74 @@ class SessionManager(QObject):
         except Exception as e:
             self.output_received.emit(f"An unexpected error occurred: {e}")
 
+    def _scan_file_before_upload(self, local_path):
+        """Scan file with ClamAV before upload. Returns True if safe to upload, False if infected."""
+        try:
+            # Use the C++ ClamAV connector to scan the file
+            scan_result = self.client.scanFile(local_path)
+            
+            if scan_result.startswith("INFECTED:"):
+                virus_name = scan_result.split(":", 1)[1].strip()
+                reason = f"File is infected with: {virus_name}. Upload cancelled."
+                self.scan_failed.emit(local_path, reason)
+                self.output_received.emit(f"ClamAV ALERT: {reason}")
+                return False
+            elif scan_result != "OK":
+                reason = f"Antivirus scan failed: {scan_result}. Upload cancelled for safety."
+                self.scan_failed.emit(local_path, reason)
+                self.output_received.emit(f"ClamAV ERROR: {reason}")
+                return False
+            else:
+                self.output_received.emit(f"ClamAV: File {local_path} is clean - proceeding with upload")
+                return True
+        except Exception as e:
+            reason = f"Failed to scan file: {str(e)}. Upload cancelled for safety."
+            self.scan_failed.emit(local_path, reason)
+            self.output_received.emit(f"ClamAV ERROR: {reason}")
+            return False
+
+    def _safe_put(self, args):
+        """PUT command with virus scanning"""
+        if len(args) < 1:
+            return "Error: PUT requires at least a local file path"
+        
+        local_path = args[0]
+        
+        # Scan file before upload
+        if not self._scan_file_before_upload(local_path):
+            return "Upload blocked due to virus scan failure"
+        
+        # If scan passes, proceed with normal upload
+        return self.client.put(args)
+
+    def _safe_mput(self, args):
+        """MPUT command with virus scanning for each file"""
+        if len(args) < 1:
+            return "Error: MPUT requires at least a file pattern"
+        
+        # For MPUT, we need to handle multiple files
+        # This is a simplified version - you might need to expand based on your specific needs
+        import glob
+        import os
+        
+        pattern = args[0]
+        if os.path.isfile(pattern):
+            # Single file
+            if not self._scan_file_before_upload(pattern):
+                return "Upload blocked due to virus scan failure"
+        else:
+            # Pattern or directory - scan all matching files
+            matching_files = glob.glob(pattern)
+            for file_path in matching_files:
+                if os.path.isfile(file_path):
+                    if not self._scan_file_before_upload(file_path):
+                        return f"Upload blocked - infected file found: {file_path}"
+        
+        # If all scans pass, proceed with normal upload
+        return self.client.mput(args)
+
     def _create_command_map(self):
-        # This method remains the same
+        # This method remains the same except for put and mput
         return {
             "open": self.client.open, "close": self.client.close, "quit": self.client.quit,
             "bye": self.client.quit, "status": self.client.status, "passive": self.client.passive,
@@ -90,6 +179,6 @@ class SessionManager(QObject):
             "help": self.client.help, "?": self.client.help, "ls": self.client.ls, "cd": self.client.cd,
             "pwd": self.client.pwd, "mkdir": self.client.mkdir, "rmdir": self.client.rmdir,
             "delete": self.client.delete, "rename": self.client.rename, "get": self.client.get,
-            "recv": self.client.get, "put": self.client.put, "mget": self.client.mget,
-            "mput": self.client.mput,
+            "recv": self.client.get, "put": self._safe_put, "mget": self.client.mget,
+            "mput": self._safe_mput,
         }

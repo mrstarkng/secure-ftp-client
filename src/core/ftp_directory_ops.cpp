@@ -109,8 +109,8 @@ std::string FtpController::printWorkingDirectory() {
 bool FtpController::changeDirectory(const std::string& path) {
     if (!isConnected()) throw FtpException("Not connected.");
     
-    // Send CWD command with proper path handling for spaces
-    std::string cwd_command = "CWD \"" + path + "\"";
+    // Send CWD command with conditional quoting for spaces
+    std::string cwd_command = "CWD " + (path.find(' ') != std::string::npos ? "\"" + path + "\"" : path);
     sendCommand(cwd_command);
     std::string reply = readReply();
     int code = parseResponseCode(reply);
@@ -127,8 +127,8 @@ bool FtpController::changeDirectory(const std::string& path) {
 bool FtpController::makeDirectory(const std::string& path) {
     if (!isConnected()) throw FtpException("Not connected.");
     
-    // Send MKD command with proper path handling for spaces
-    std::string mkd_command = "MKD \"" + path + "\"";
+    // Send MKD command with conditional quoting for spaces
+    std::string mkd_command = "MKD " + (path.find(' ') != std::string::npos ? "\"" + path + "\"" : path);
     sendCommand(mkd_command);
     std::string reply = readReply();
     int code = parseResponseCode(reply);
@@ -146,7 +146,7 @@ bool FtpController::removeDirectory(const std::string& path) {
     if (!isConnected()) throw FtpException("Not connected.");
     
     // First, try to just remove the directory directly (in case it's empty)
-    std::string rmd_command = "RMD \"" + path + "\"";
+    std::string rmd_command = "RMD " + (path.find(' ') != std::string::npos ? "\"" + path + "\"" : path);
     sendCommand(rmd_command);
     std::string reply = readReply();
     int code = parseResponseCode(reply);
@@ -215,7 +215,7 @@ bool FtpController::removeDirectory(const std::string& path) {
     }
     
     // Now try to remove the directory again
-    rmd_command = "RMD \"" + path + "\"";
+    rmd_command = "RMD " + (path.find(' ') != std::string::npos ? "\"" + path + "\"" : path);
     sendCommand(rmd_command);
     reply = readReply();
     code = parseResponseCode(reply);

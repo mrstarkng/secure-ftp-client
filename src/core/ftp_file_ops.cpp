@@ -42,8 +42,8 @@ std::ofstream open_ofstream_utf8(const std::string& path) {
 bool FtpController::deleteFile(const std::string& remote_path) {
     if (!isConnected()) throw FtpException("Not connected.");
     
-    // Send DELE command with proper filename handling for spaces
-    std::string dele_command = "DELE \"" + remote_path + "\"";
+    // Send DELE command with conditional quoting for spaces
+    std::string dele_command = "DELE " + (remote_path.find(' ') != std::string::npos ? "\"" + remote_path + "\"" : remote_path);
     sendCommand(dele_command);
     std::string reply = readReply();
     int code = parseResponseCode(reply);
@@ -60,8 +60,8 @@ bool FtpController::deleteFile(const std::string& remote_path) {
 bool FtpController::renameFile(const std::string& from, const std::string& to) {
     if (!isConnected()) throw FtpException("Not connected.");
     
-    // Send RNFR command with proper filename handling for spaces
-    std::string rnfr_command = "RNFR \"" + from + "\"";
+    // Send RNFR command with conditional quoting for spaces
+    std::string rnfr_command = "RNFR " + (from.find(' ') != std::string::npos ? "\"" + from + "\"" : from);
     sendCommand(rnfr_command);
     std::string rnfr_reply = readReply();
     int rnfr_code = parseResponseCode(rnfr_reply);
@@ -71,8 +71,8 @@ bool FtpController::renameFile(const std::string& from, const std::string& to) {
         return false;
     }
     
-    // Send RNTO command with proper filename handling for spaces
-    std::string rnto_command = "RNTO \"" + to + "\"";
+    // Send RNTO command with conditional quoting for spaces
+    std::string rnto_command = "RNTO " + (to.find(' ') != std::string::npos ? "\"" + to + "\"" : to);
     sendCommand(rnto_command);
     std::string rnto_reply = readReply();
     int rnto_code = parseResponseCode(rnto_reply);
@@ -102,8 +102,8 @@ bool FtpController::downloadFile(const std::string& remote, const std::string& l
         // Create data connection
         data_socket = createDataConnection();
         
-        // Send RETR command with proper filename handling for spaces
-        std::string retr_command = "RETR \"" + remote + "\"";
+        // Send RETR command with conditional quoting for spaces
+        std::string retr_command = "RETR " + (remote.find(' ') != std::string::npos ? "\"" + remote + "\"" : remote);
         sendCommand(retr_command);
 
         // Read initial response (should be 150 or 125)
@@ -164,8 +164,8 @@ bool FtpController::uploadFile(const std::string& local, const std::string& remo
         // Create data connection
         data_socket = createDataConnection();
         
-        // Send STOR command with proper filename handling for spaces
-        std::string stor_command = "STOR \"" + remote + "\"";
+        // Send STOR command with conditional quoting for spaces
+        std::string stor_command = "STOR " + (remote.find(' ') != std::string::npos ? "\"" + remote + "\"" : remote);
         sendCommand(stor_command);
 
         // Read initial response (should be 150 or 125)
@@ -237,8 +237,8 @@ bool FtpController::uploadFileWithProgress(const std::string& local, const std::
         // Create data connection
         data_socket = createDataConnection();
         
-        // Send STOR command with proper filename handling for spaces
-        std::string stor_command = "STOR \"" + remote + "\"";
+        // Send STOR command with conditional quoting for spaces
+        std::string stor_command = "STOR " + (remote.find(' ') != std::string::npos ? "\"" + remote + "\"" : remote);
         sendCommand(stor_command);
 
         // Read initial response (should be 150 or 125)
@@ -320,8 +320,8 @@ bool FtpController::downloadFileWithProgress(const std::string& remote, const st
         // Create data connection
         data_socket = createDataConnection();
         
-        // Send RETR command with proper filename handling for spaces
-        std::string retr_command = "RETR \"" + remote + "\"";
+        // Send RETR command with conditional quoting for spaces
+        std::string retr_command = "RETR " + (remote.find(' ') != std::string::npos ? "\"" + remote + "\"" : remote);
         sendCommand(retr_command);
 
         // Read initial response (should be 150 or 125)

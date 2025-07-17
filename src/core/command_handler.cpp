@@ -7,7 +7,7 @@
 
 namespace fs = std::filesystem;
 
-CommandHandler::CommandHandler() : av(constants::AGENT_HOST, constants::AGENT_PORT) {}
+CommandHandler::CommandHandler() : av() {}
 
 void CommandHandler::mgetRecursive(const std::string& remote_path, const std::string& local_path) {
     // Ensure local directory exists
@@ -40,9 +40,18 @@ void CommandHandler::mputRecursive(const fs::path& local_path, const std::string
             ftp.makeDirectory(remote_entry_path);
             mputRecursive(entry.path(), remote_entry_path);
         } else if (fs::is_regular_file(entry.status())) {
-            std::cout << "Uploading " << entry.path().string() << " to " << remote_entry_path << std::endl;
-            // You might want to add ClamAV scan here as well, similar to handle_put
-            ftp.uploadFile(entry.path().string(), remote_entry_path);
+            // --- ADD SCANNING LOGIC HERE ---
+            try {
+                std::string scan_result = av.scanFile(entry.path().string());
+                if (scan_result == "OK") {
+                    std::cout << "Uploading " << entry.path().string() << " to " << remote_entry_path << std::endl;
+                    ftp.uploadFile(entry.path().string(), remote_entry_path);
+                } else {
+                    std::cout << "SKIPPING infected file: " << entry.path().string() << " (" << scan_result << ")" << std::endl;
+                }
+            } catch (const FtpException& e) {
+                std::cout << "ERROR scanning/uploading " << entry.path().string() << ": " << e.what() << std::endl;
+            }
         }
     }
 }
@@ -141,22 +150,26 @@ std::string CommandHandler::handle_put(const std::vector<std::string>& args) {
     if (!ftp.isConnected()) return "Not connected.";
 
     std::string local_file = args[0];
-    std::string remote_file = (args.size() > 1) ? args[1] : local_file;
+    std::string remote_file = (args.size() > 1) ? args[1] : fs::path(local_file).filename().string();
 
     try {
-        std::cout << "Scanning " << local_file << "..." << std::endl;
-        ScanResult result = av.scanFile(local_file);
+        // STEP 1: Send file to agent for scanning
+        std::string scan_result = av.scanFile(local_file);
 
-        if (result == ScanResult::OK) {
-            std::cout << "File is clean. Uploading..." << std::endl;
+        // STEP 2: Process scan result
+        if (scan_result == "OK") {
+            std::cout << "File is clean. Uploading to FTP server..." << std::endl;
             if (ftp.uploadFile(local_file, remote_file)) {
                 return "File uploaded successfully.";
             }
-            return "File upload failed.";
-        } else if (result == ScanResult::INFECTED) {
-            return "WARNING: File is infected! Upload aborted.";
-        } else { // SCAN_ERROR
-            return "ERROR: Could not scan file. Upload aborted.";
+            return "File upload failed on FTP server.";
+        } 
+        else if (scan_result.rfind("INFECTED", 0) == 0) {
+            // Return error message from agent
+            return "WARNING: " + scan_result + " Upload aborted.";
+        } 
+        else { // Other errors (agent not running, ClamAV error, ...)
+            return "ERROR during scan: " + scan_result + ". Upload aborted.";
         }
     } catch (const FtpException& e) {
         return std::string("Error: ") + e.what();
@@ -325,4 +338,8 @@ void CommandHandler::disconnect() {
 
 bool CommandHandler::isConnected() const {
     return ftp.isConnected();
+}
+
+std::string CommandHandler::scanFile(const std::string& local_file_path) {
+    return av.scanFile(local_file_path);
 }

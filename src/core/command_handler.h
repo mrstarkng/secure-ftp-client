@@ -48,6 +48,9 @@ public:
     void setPassive(bool passive);
     void disconnect();
     bool isConnected() const;
+    
+    // --- ClamAV Integration for Python ---
+    std::string scanFile(const std::string& local_file_path);
 
 private:
     // Add private helpers for recursion

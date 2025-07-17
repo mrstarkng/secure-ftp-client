@@ -53,5 +53,8 @@ PYBIND11_MODULE(ftp_engine, m) {
         .def("login", &CommandHandler::login, py::arg("username"), py::arg("password"), py::call_guard<py::gil_scoped_release>())
         .def("setPassive", &CommandHandler::setPassive, py::arg("passive"), py::call_guard<py::gil_scoped_release>())
         .def("disconnect", &CommandHandler::disconnect, py::call_guard<py::gil_scoped_release>())
-        .def("isConnected", &CommandHandler::isConnected, py::call_guard<py::gil_scoped_release>());
+        .def("isConnected", &CommandHandler::isConnected, py::call_guard<py::gil_scoped_release>())
+        
+        // --- ClamAV Integration for Python ---
+        .def("scanFile", &CommandHandler::scanFile, py::arg("local_file_path"), py::call_guard<py::gil_scoped_release>());
 }
