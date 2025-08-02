@@ -1,3 +1,0 @@
-P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/ftp_engine.dir
-P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/edit_cache.dir
-P:/HCMUS/3rdYear_3rdSemester/MMT/FTPClient/build/CMakeFiles/rebuild_cache.dir
