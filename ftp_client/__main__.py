@@ -1,7 +1,6 @@
 import argparse
 from ftp_client.cli import CLI
 
-
 def main():
     parser = argparse.ArgumentParser(description="Secure FTP Client CLI")
     parser.add_argument("--host", required=True, help="FTP server hostname")
@@ -11,8 +10,10 @@ def main():
     args = parser.parse_args()
 
     cli = CLI(host=args.host, port=args.port, user=args.user, password=args.password)
-    cli.cmdloop()
-
+    try:
+        cli.cmdloop()
+    finally:
+        cli.app.close()
 
 if __name__ == "__main__":
     main()

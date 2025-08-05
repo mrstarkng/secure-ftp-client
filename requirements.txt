@@ -1,0 +1,3 @@
+tqdm            # progress bar cho upload/download
+pyftpdlib       # FTP server thuần Python (dùng cho testing/integration)
+pytest          # framework test tự động
