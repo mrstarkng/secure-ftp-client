@@ -314,7 +314,7 @@ class ClamAVInstaller(QThread):
                 return True
             else:
                 # Test passed even if no virus detected (database might be empty)
-                return True
+                return False 
                 
         except Exception as e:
             self.status_updated.emit(f"Test failed: {str(e)}")
