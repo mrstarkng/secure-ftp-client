@@ -121,7 +121,10 @@ The solution is comprised of three components:
 2. **Start FTP Server** (local test):
 
    ```bash
-   python3 -m pyftpdlib -w -u ftpuser -P password123 -d ./ftp_root
+  python3 -m pyftpdlib -w \                                                          
+    -u ftpuser -P password123 \
+    -d .
+    
    ```
 3. **Run FTP Client**:
 
